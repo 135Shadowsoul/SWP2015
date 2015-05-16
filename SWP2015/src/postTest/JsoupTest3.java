@@ -10,10 +10,10 @@ public class JsoupTest3 {
 	public static void main(String[] args) throws Exception {
 		
 
-		Document doc = Jsoup.connect("https://www.faz.net/mein-faz-net/?redirectUrl=$boersens$/a/depot.cgi").userAgent("Mozilla").get();
+		Document doc = Jsoup.connect("https://www.faz.net/mein-faz-net/").userAgent("Mozilla").get();
 
 	
-		Response response = Jsoup.connect("https://www.faz.net/mein-faz-net/?redirectUrl=$boersens$/a/depot.cgi/membership/loginNoScript").userAgent("Mozilla")
+		Response response = Jsoup.connect("https://www.faz.net/mein-faz-net/membership/loginNoScript").userAgent("Mozilla")
 				.data("inputURL", "")
 				.data("redirectURL", "$boersens$/a/depot.cgi")
 				.data("loginNameFAZ2", "swp2015")
@@ -25,8 +25,11 @@ public class JsoupTest3 {
 		System.out.println(response.cookies());
 
 		
-		doc = Jsoup.connect("http://boersenspiel.faz.net/a/depot.cgi").data("cookiesExist", "ture").cookies(response.cookies()).get();
-		System.out.println(doc.toString());
+		doc = Jsoup.connect("https://www.faz.net/mein-faz-net/meine-beitraege/").cookies(response.cookies()).get();
+
+		if (doc.toString().contains("swp gruppe"))
+			System.out.println(doc.toString());
+		else System.out.println("nix da");
 
 	
 	}
