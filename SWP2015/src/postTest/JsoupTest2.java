@@ -1,8 +1,6 @@
 package postTest;
 
-import java.util.Iterator;
 import java.util.Map;
-
 import org.jsoup.Connection.Response;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -55,7 +53,7 @@ public class JsoupTest2 {
 		
 		
 		// Attack Form
-		Response response3 = Jsoup.connect("http://en80.tribalwars.net/game.php?village=17099&try=confirm&screen=place")
+		Response response3 = Jsoup.connect("http://en80.tribalwars.net/game.php?village=17099&try=confirm&screen=place").userAgent("Mozilla")
 				.cookies(cookies).data("cookieexists", "true")
 				.data("240e8e3def6737f8e9dc7f", "31e8782c240e8e")
 				.data("template_id", "")
@@ -92,7 +90,7 @@ public class JsoupTest2 {
 
 		
 		// Attack
-		Document doc = Jsoup.connect("http://en80.tribalwars.net/game.php?village=17099&action=command&h=79644868&screen=place")
+		Document doc = Jsoup.connect("http://en80.tribalwars.net/game.php?village=17099&action=command&h=79644868&screen=place").userAgent("Mozilla")
 				.cookies(cookies)
 				.data("cookieexists", "true")
 				.data("submit", "Send attack")
@@ -108,7 +106,7 @@ public class JsoupTest2 {
 				.data("catapult", "0")
 				.data("knight", "0")
 				.data("snob", "0")
-				.post();
+				.get();
 
 		if (doc.toString().contains("Session expired"))
 			System.out.println("Session Expired");
@@ -118,4 +116,11 @@ public class JsoupTest2 {
 		System.out.println(doc.toString());
 
 	}
+	
+	
+//	Map<String, String> cookies2 = new HashMap<String, String>();
+//	cookies2.put("ref1083524", "start");
+//	cookies2.put("global_village_id", "37110");
+//	cookies2.put("cid", "2038736802");
+//	cookies2.put("sid", "0%3A92e014be8d59");
 }
