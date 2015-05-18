@@ -8,8 +8,11 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class JsoupTest {
+	
+	private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; rv:38.0) Gecko/20100101 Firefox/38.0";
+	
 	public static void main(String[] args) throws Exception {
-
+		
 		ArrayList<String> suchbegriffe = new ArrayList<String>();
 		suchbegriffe.add("test");
 		suchbegriffe.add("schnell");		
