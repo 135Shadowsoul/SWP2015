@@ -11,6 +11,6 @@ public interface Notifier {
 	 * @return String
 	 * 
 	 */
-	public String notify(String address, String subject, String message);
+	public String notify(String subject, String message);
 
 }
