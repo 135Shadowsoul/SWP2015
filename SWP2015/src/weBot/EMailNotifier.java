@@ -74,6 +74,7 @@ public class EMailNotifier implements Notifier {
 
 	@Override
 	public String notify(String subject, String message) {
+		Logger logger = new Logger();
 
 		String returnString = "";
 
@@ -95,6 +96,7 @@ public class EMailNotifier implements Notifier {
 			returnString = "Mail erfolgreich an " + address + " gesendet.";
 		} catch (Exception e) {
 			returnString = "Fehler beim Versenden der Nachricht!!";
+			logger.log("Fehler beim versenden der Mail!!");
 		}
 		return returnString;
 	}
