@@ -8,8 +8,7 @@ public interface Notifier {
 	 * @param address
 	 * @param message
 	 * 
-	 * @return String
-	 * 
+	 * @return String 
 	 */
 	public String notify(String subject, String message);
 
