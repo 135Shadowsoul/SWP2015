@@ -29,6 +29,11 @@ public class Logger {
 		writer.writeLog(log);
 	}
 	
+	/**
+	 * Fügt der Log-Liste einen Eintrag hinzu
+	 * 
+	 * @param action
+	 */
 	public void addLog(String action){
 		String time = sdf.format(System.currentTimeMillis());
 		String log = time + ": " + action;

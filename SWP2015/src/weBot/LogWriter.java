@@ -12,9 +12,7 @@ public class LogWriter {
 	SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 	
 	/**
-	 * 
 	 * Konstruktor ohne Werte
-	 * 
 	 */
 	public LogWriter(){
 		
@@ -40,9 +38,7 @@ public class LogWriter {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		
-		
+				
 	}
 	
 	/**
@@ -55,7 +51,6 @@ public class LogWriter {
 			writeLog(log);			
 		}
 	}
-	
 	
 	
 //	public static void main(String[] args){
