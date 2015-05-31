@@ -39,16 +39,16 @@ public class HTML_Parser {
 			userInput.put("suche", "Bratkartoffeln");
 
 			// looks at form 0 (search form)
-			// System.out.println(parser.getFormData(res, 0).toString());
+//			 System.out.println(parser.getFormData(res, 0).toString());
 
 			// send search form and print output
 			res = parser.send(parser.getFormData(res, 0), userInput);
-			// Document doc1 = res.parse();
-			// System.out.println(doc1.toString());
-			// System.out.println(doc1.getElementsByClass("overall-search-result-count"));
+			 Document doc1 = res.parse();
+			 System.out.println(doc1.toString());
+			 System.out.println(doc1.getElementsByClass("overall-search-result-count"));
 
 			// looks at all forms in the document of res
-			// System.out.println(parser.getFormList(res).toString());
+//			 System.out.println(parser.getFormList(res).toString());
 
 			// public HashMap<String,String> getObjects(Response res,
 			// List<String> IDList)
