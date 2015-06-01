@@ -55,7 +55,7 @@ public class LogWriter {
 	
 //	public static void main(String[] args){
 //		LogWriter lw = new LogWriter();
-//		List<String> logs = new ArrayList<String>();
+//		ArrayList<String> logs = new ArrayList<String>();
 //		logs.add("test"); logs.add("Test"); logs.add("TEST");
 //		lw.writeLog(logs);
 //	}
