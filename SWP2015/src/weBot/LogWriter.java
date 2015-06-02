@@ -23,7 +23,7 @@ public class LogWriter {
 	 * 
 	 * @param log
 	 */
-	public void writeLog(String log){
+	public void writeLog(Log log){
 		
 		String date = sdf.format(System.currentTimeMillis());		
 		String fileName = "WeBot_Log_" + date + ".txt";		
@@ -31,7 +31,7 @@ public class LogWriter {
 		
 		try {
 			FileWriter writer = new FileWriter(file ,true);
-			writer.write(log);
+			writer.write(log.toString());
 			writer.write(LINE_SEPARATOR);
 			writer.flush();		
 			writer.close();
@@ -46,8 +46,8 @@ public class LogWriter {
 	 * 
 	 * @param logs
 	 */
-	public void writeLog(ArrayList<String> logs){
-		for (String log : logs) {
+	public void writeLog(ArrayList<Log> logs){
+		for (Log log : logs) {
 			writeLog(log);			
 		}
 	}
