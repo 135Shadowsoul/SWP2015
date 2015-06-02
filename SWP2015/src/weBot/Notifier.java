@@ -1,5 +1,8 @@
 package weBot;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+
 public interface Notifier {
 
 	/**
@@ -12,7 +15,9 @@ public interface Notifier {
 	 * @param message
 	 * 
 	 * @return String
+	 * @throws MessagingException 
+	 * @throws AddressException 
 	 */
-	public String notify(String subject, String message);
+	public String notify(String subject, String message) throws Exception;
 
 }

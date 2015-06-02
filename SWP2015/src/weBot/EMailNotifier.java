@@ -2,8 +2,10 @@ package weBot;
 
 import java.util.Properties;
 import java.util.Date;
+
 import javax.mail.*;
 import javax.mail.internet.*;
+
 import com.sun.mail.smtp.*;
 
 /**
@@ -73,8 +75,7 @@ public class EMailNotifier implements Notifier {
 	// }
 
 	@Override
-	public String notify(String subject, String message) {
-		Logger logger = new Logger();
+	public String notify(String subject, String message) throws AddressException, MessagingException {
 
 		String returnString = "";
 
@@ -83,7 +84,7 @@ public class EMailNotifier implements Notifier {
 		props.put("mail.smtps.auth", "true");
 		Session session = Session.getInstance(props, null);
 		Message msg = new MimeMessage(session);
-		try {
+		
 			msg.setFrom(new InternetAddress("swp2015mail@gmail.com"));
 			msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(address, false));
 			msg.setSubject(subject);
@@ -94,10 +95,7 @@ public class EMailNotifier implements Notifier {
 			t.sendMessage(msg, msg.getAllRecipients());
 			t.close();
 			returnString = "Mail erfolgreich an " + address + " gesendet.";
-		} catch (Exception e) {
-			returnString = "Fehler beim Versenden der Nachricht!!";
-			logger.log("Fehler beim versenden der Mail!!");
-		}
+		
 		return returnString;
 	}
 
