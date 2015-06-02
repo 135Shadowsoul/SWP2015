@@ -21,7 +21,7 @@ public class EMailNotifier implements Notifier {
 	// final String username = "swp2015mail";
 	// final String password = "SWP-2015";
 
-	String address;
+	final String address;
 
 	/**
 	 * Konstruktor. erstellt neuen EMailNotifier
@@ -101,9 +101,10 @@ public class EMailNotifier implements Notifier {
 		return returnString;
 	}
 
-//	public static void main(String[] args) {
-//		EMailNotifier not = new EMailNotifier("andreas.knapp.135@gmail.com");
-//		System.out.println(not.notify("Test", "Das ist eine Testmail." + "\n" + "Automatisch Gesendet!"));
-//	}
+	// public static void main(String[] args) {
+	// EMailNotifier not = new EMailNotifier("andreas.knapp.135@gmail.com");
+	// System.out.println(not.notify("Test", "Das ist eine Testmail." + "\n" +
+	// "Automatisch Gesendet!"));
+	// }
 
 }
