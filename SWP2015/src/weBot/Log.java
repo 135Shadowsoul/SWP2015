@@ -21,7 +21,7 @@ public final class Log {
 	}
 
 	/**
-	 * returns Log als String dd.MM.yyyy, hh:mm:ss text
+	 * @return String des Logs im Format 01.01.2000, 13:30 Login erfolgreich
 	 */
 	public String toString() {
 		return time + " " + text;
