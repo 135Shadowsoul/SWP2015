@@ -7,7 +7,7 @@ public final class Log {
 	private final String text;
 	private final String time;
 
-	SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy, hh:mm:ss");
+	SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy hh:mm:ss");
 
 	/**
 	 * Konstruktor für Log. Erstellt mit Übergebenem Text und hängt Zeitstempel
@@ -21,10 +21,10 @@ public final class Log {
 	}
 
 	/**
-	 * @return String des Logs im Format 01.01.2000, 13:30 Login erfolgreich
+	 * @return String des Logs im Format 01.01.2000 13:30, Login erfolgreich
 	 */
 	public String toString() {
-		return time + " " + text;
+		return time + ", " + text;
 
 	}
 
