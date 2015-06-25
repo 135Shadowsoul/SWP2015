@@ -88,6 +88,10 @@ public class GUI extends Application {
 					chosenBrowser.setTextFill(Color.BLACK);
 					browserBox.setDisable(true);
 					discardBrowser.setDisable(false);
+					if (!logicAdded)
+						statusText.setText("Waiting for Logic");
+					else
+						statusText.setText("Ready");
 				} else if (browserBox.getValue().equals("Chrome") || browserBox.getValue().equals("Internet Explorer")) {
 					if (browserPath.getText().equals("")) {
 						chosenBrowser.setText("Invalid Path");
@@ -100,7 +104,11 @@ public class GUI extends Application {
 						discardBrowser.setDisable(false);
 						browserPath.setDisable(true);
 						chooseBrowser.setDisable(true);
-
+						browserChosen = true;
+						if (!logicAdded)
+							statusText.setText("Waiting for Logic");
+						else
+							statusText.setText("Ready");
 					}
 				}
 			}
@@ -119,6 +127,9 @@ public class GUI extends Application {
 				chooseBrowser.setDisable(false);
 				browserPath.setDisable(false);
 				browserChosen = false;
+				if (logicAdded)
+					statusText.setText("Waiting for Browser");
+				else statusText.setText("Waiting for Inputs");
 			}
 		});
 
@@ -142,7 +153,7 @@ public class GUI extends Application {
 					chosenLogic.setText("Chosen Logic-file: " + logicFile.getName());
 					chosenLogic.setVisible(true);
 					if (browserChosen) {
-						statusText.setText("Waiting for Start");
+						statusText.setText("Ready");
 					} else
 						statusText.setText("Waiting for Browser");
 					loadLogic.setDisable(true);
@@ -166,7 +177,7 @@ public class GUI extends Application {
 					discardLogic.setDisable(true);
 					loadLogic.setDisable(false);
 					logicAdded = false;
-					chosenLogic.setText("");
+					chosenLogic.setText("Chosen Logic-File: none");
 					chosenLogic.setVisible(false);
 					if (browserChosen)
 						statusText.setText("Waiting for Logic");
@@ -214,7 +225,8 @@ public class GUI extends Application {
 				// Stoppt das Programm
 				discardLogic.setDisable(false);
 				discardBrowser.setDisable(false);
-				browserBox.setDisable(false);
+				chooseLogic.setDisable(true);
+				chooseBrowser.setDisable(true);
 				statusText.setText("Stopped by Operator");
 
 			}
