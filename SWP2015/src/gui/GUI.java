@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
 public class GUI extends Application {
@@ -145,6 +146,9 @@ public class GUI extends Application {
 			@Override
 			public void handle(final ActionEvent e) {
 				FileChooser fileChooser = new FileChooser();
+				ExtensionFilter filter = new ExtensionFilter("BotLanguage (*.bla)", "*.bla");
+				
+				fileChooser.getExtensionFilters().add(filter);
 				logicFile = fileChooser.showOpenDialog(arg0);
 				if (logicFile != null && logicFile.getName().endsWith(".bla")) {
 					logicAdded = true;
@@ -161,6 +165,7 @@ public class GUI extends Application {
 					statusText.setText("Invalid file for Logic! Excepting *.bla!");
 					chosenLogic.setText("Invalid file for Logic! Excepting *.bla!");
 					chosenLogic.setTextFill(Color.RED);
+					chosenLogic.setVisible(true);
 				}
 
 			}
@@ -200,6 +205,7 @@ public class GUI extends Application {
 				if (browserChosen && logicAdded) {
 					discardLogic.setDisable(true);
 					discardBrowser.setDisable(true);
+					startButton.setDisable(true);
 					statusText.setText("Starting...");
 					stopButton.setDisable(false);
 					// TODO
@@ -225,8 +231,9 @@ public class GUI extends Application {
 				// Stoppt das Programm
 				discardLogic.setDisable(false);
 				discardBrowser.setDisable(false);
-				chooseLogic.setDisable(true);
 				chooseBrowser.setDisable(true);
+				stopButton.setDisable(true);
+				startButton.setDisable(false);
 				statusText.setText("Stopped by Operator");
 
 			}
