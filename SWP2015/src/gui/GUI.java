@@ -2,6 +2,7 @@ package gui;
 
 import java.io.File;
 import java.util.List;
+
 import weBot.Log;
 import javafx.application.Application;
 import javafx.beans.value.ObservableValue;
@@ -23,6 +24,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+
 
 public class GUI extends Application {
 
@@ -55,6 +57,7 @@ public class GUI extends Application {
 
 	private final Label statusLabel = new Label("Status:");
 	private Label statusText = new Label("Waiting for Operator...");
+
 
 	@Override
 	public void start(Stage arg0) throws Exception {
@@ -94,8 +97,6 @@ public class GUI extends Application {
 		chooseBrowser.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent e) {
-				Log log = new Log("Test");
-				addLog(log);
 				if (browserBox.getValue().equals("FireFox")) {
 					browserPath.setDisable(true);
 					chooseBrowser.setDisable(true);
