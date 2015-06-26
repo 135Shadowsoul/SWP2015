@@ -20,11 +20,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.RectangleBuilder;
+import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-
 
 public class GUI extends Application {
 
@@ -47,22 +49,25 @@ public class GUI extends Application {
 
 	private final Button startButton = new Button("Start");
 	private final Button stopButton = new Button("Stop");
-	
-	private Label scoreLabel = new Label("No Score");
-	private Label scoreText = new Label("Nothing to Watch");
-	
+
+	// private Label scoreLabel = new Label("No Score");
+	// private Label scoreText = new Label("Nothing to watch");
+
+	private final Label logLabel = new Label("Logs");
 	private TableView<Log> logTable = new TableView<Log>();
-	private TableColumn<Log, String> logColumn = new TableColumn<Log, String>();
+	private TableColumn<Log, String> messageColumn = new TableColumn<Log, String>();
+	private TableColumn<Log, String> dateColumn = new TableColumn<Log, String>();
 	private ObservableList<Log> logList = FXCollections.observableArrayList(new Log("Programm Started"));
 
 	private final Label statusLabel = new Label("Status:");
 	private Label statusText = new Label("Waiting for Operator...");
 
-
 	@Override
 	public void start(Stage arg0) throws Exception {
 
 		Pane pane = new Pane();
+
+		Rectangle statusBar = RectangleBuilder.create().width(600).height(50).x(0).y(495).fill(Color.LIGHTGREY).stroke(Color.DIMGREY).build();
 
 		browserLabel.setLayoutX(70);
 		browserLabel.setLayoutY(10);
@@ -103,6 +108,7 @@ public class GUI extends Application {
 					browserChosen = true;
 					chosenBrowser.setText("Chosen Browser: FireFox");
 					chosenBrowser.setTextFill(Color.BLACK);
+					statusBar.setFill(Color.LIGHTGREY);
 					browserBox.setDisable(true);
 					discardBrowser.setDisable(false);
 					if (!logicAdded)
@@ -121,11 +127,15 @@ public class GUI extends Application {
 						discardBrowser.setDisable(false);
 						browserPath.setDisable(true);
 						chooseBrowser.setDisable(true);
+						statusBar.setFill(Color.LIGHTGREY);
 						browserChosen = true;
-						if (!logicAdded)
+						if (!logicAdded) {
 							statusText.setText("Waiting for Logic");
-						else
+							statusBar.setFill(Color.LIGHTGREY);
+						} else {
 							statusText.setText("Ready");
+							statusBar.setFill(Color.LIGHTGREY);
+						}
 					}
 				}
 			}
@@ -145,10 +155,13 @@ public class GUI extends Application {
 				if (!browserBox.getValue().equals("FireFox"))
 					browserPath.setDisable(false);
 				browserChosen = false;
-				if (logicAdded)
+				if (logicAdded) {
 					statusText.setText("Waiting for Browser");
-				else
+					statusBar.setFill(Color.LIGHTGREY);
+				} else {
 					statusText.setText("Waiting for Inputs");
+					statusBar.setFill(Color.LIGHTGREY);
+				}
 			}
 		});
 
@@ -215,7 +228,7 @@ public class GUI extends Application {
 		chosenLogic.setLayoutY(65);
 
 		startButton.setLayoutX(100);
-		startButton.setLayoutY(150);
+		startButton.setLayoutY(130);
 		startButton.setMinSize(100, 50);
 		startButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -225,21 +238,28 @@ public class GUI extends Application {
 					discardBrowser.setDisable(true);
 					startButton.setDisable(true);
 					statusText.setText("Starting...");
+					statusBar.setFill(Color.LIGHTGREY);
+					Log log = new Log("Start running...");
+					addLog(log);
 					stopButton.setDisable(false);
 					// TODO
 					// Ruft den Converter auf und übergibt die Liste an den
 					// We-B-Ot
-				} else if (browserChosen)
+				} else if (browserChosen) {
 					statusText.setText("Missing Logic!");
-				else if (logicAdded)
+					statusBar.setFill(Color.RED);
+				} else if (logicAdded) {
 					statusText.setText("Missing Browser!");
-				else
+					statusBar.setFill(Color.RED);
+				} else {
 					statusText.setText("Missing Browser and Logic!");
+					statusBar.setFill(Color.RED);
+				}
 			}
 		});
 
 		stopButton.setLayoutX(400);
-		stopButton.setLayoutY(150);
+		stopButton.setLayoutY(130);
 		stopButton.setMinSize(100, 50);
 		stopButton.setDisable(true);
 		stopButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -251,29 +271,39 @@ public class GUI extends Application {
 
 			}
 		});
-		
-		scoreLabel.setLayoutX(10);
-		scoreLabel.setLayoutY(250);
-		scoreText.setLayoutX(10);
-		scoreText.setLayoutY(270);
-		
+
+		// scoreLabel.setLayoutX(10);
+		// scoreLabel.setLayoutY(230);
+		// scoreText.setLayoutX(10);
+		// scoreText.setLayoutY(250);
+
+		logLabel.setLayoutX(270);
+		logLabel.setLayoutY(290);
+		logLabel.setFont(new Font("Arial", 20));
 		logTable.setLayoutX(10);
-		logTable.setLayoutY(300);
+		logTable.setLayoutY(320);
 		logTable.setMaxHeight(150);
 		logTable.setMaxWidth(570);
 		logTable.setMinWidth(570);
-		logColumn.setMinWidth(568);
-		logColumn.setMaxWidth(568);
-		logColumn.setText("Logs");
-		logColumn.setCellValueFactory(new Callback<CellDataFeatures<Log, String>, ObservableValue<String>>() {
+
+		dateColumn.setCellValueFactory(new Callback<CellDataFeatures<Log, String>, ObservableValue<String>>() {
 			public ObservableValue<String> call(CellDataFeatures<Log, String> p) {
-				return p.getValue().getLogProperty();
+				return p.getValue().getDateProperty();
 			}
-		});	
-		
+		});
+		dateColumn.setMinWidth(120);
+		dateColumn.setText("Timestamp");
+		messageColumn.setCellValueFactory(new Callback<CellDataFeatures<Log, String>, ObservableValue<String>>() {
+			public ObservableValue<String> call(CellDataFeatures<Log, String> p) {
+				return p.getValue().getTextProperty();
+			}
+		});
+		messageColumn.setMinWidth(450);
+		messageColumn.setText("Message");
 
 		logTable.setItems(logList);
-		logTable.getColumns().add(logColumn);	
+		logTable.getColumns().add(dateColumn);
+		logTable.getColumns().add(messageColumn);
 
 		statusLabel.setLayoutX(10);
 		statusLabel.setLayoutY(500);
@@ -281,9 +311,9 @@ public class GUI extends Application {
 		statusText.setLayoutY(500);
 
 		pane.getChildren().addAll(chooseLogic, loadLogic, discardLogic, chosenLogic, browserBox, browserLabel, browserPath, chooseBrowser, discardBrowser, chosenBrowser,
-				startButton, stopButton, scoreLabel, scoreText, logTable, statusLabel, statusText);
-		
-		
+				startButton, stopButton,
+				// scoreLabel, scoreText,
+				logLabel, logTable, statusBar, statusLabel, statusText);
 
 		Scene scene = new Scene(pane);
 		Stage stage = new Stage();
@@ -316,16 +346,17 @@ public class GUI extends Application {
 		stopButton.setDisable(true);
 		startButton.setDisable(false);
 		statusText.setText(message);
+		Log log = new Log(message);
+		addLog(log);
 	}
-	
-	public void setScore(String name, String message){
-		scoreLabel.setText(name + ":");
-		scoreText.setText(message);
-	}
-	
-	public void addLog(Log log){
+
+	// public void setScore(String name, String message) {
+	// scoreLabel.setText(name + ":");
+	// scoreText.setText(message);
+	// }
+
+	public void addLog(Log log) {
 		logList.add(0, log);
 	}
-		
 
 }
