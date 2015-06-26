@@ -38,9 +38,13 @@ import javafx.util.Callback;
 
 public class GUI extends Application {
 
+	public GUI() {
+
+	}
+
 	private File logicFile = null;
-	boolean browserChosen = false;
-	boolean logicAdded = false;
+	private boolean browserChosen = false;
+	private boolean logicAdded = false;
 
 	private MenuBar menubar = new MenuBar();
 
