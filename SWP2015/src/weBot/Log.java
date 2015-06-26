@@ -2,10 +2,14 @@ package weBot;
 
 import java.text.SimpleDateFormat;
 
+import javafx.beans.property.SimpleStringProperty;
+
 public final class Log {
 
 	private final String text;
 	private final String time;
+	private final SimpleStringProperty textProperty;
+	private final SimpleStringProperty dateProperty;
 
 	SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy hh:mm:ss");
 
@@ -18,6 +22,8 @@ public final class Log {
 	public Log(final String text) {
 		this.text = text;
 		this.time = sdf.format(System.currentTimeMillis());
+		this.textProperty = new SimpleStringProperty(text);
+		this.dateProperty = new SimpleStringProperty(time);
 	}
 
 	/**
@@ -26,6 +32,18 @@ public final class Log {
 	public String toString() {
 		return time + ", " + text;
 
+	}
+	
+	public SimpleStringProperty getTextProperty(){
+		return this.textProperty;
+	}
+	
+	public SimpleStringProperty getDateProperty(){
+		return this.dateProperty;
+	}
+	
+	public SimpleStringProperty getLogProperty(){
+		return new SimpleStringProperty(this.toString());
 	}
 
 }
