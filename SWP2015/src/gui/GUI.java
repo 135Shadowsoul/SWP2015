@@ -111,10 +111,13 @@ public class GUI extends Application {
 					statusBar.setFill(Color.LIGHTGREY);
 					browserBox.setDisable(true);
 					discardBrowser.setDisable(false);
-					if (!logicAdded)
+					if (!logicAdded) {
 						statusText.setText("Waiting for Logic");
-					else
+						statusBar.setFill(Color.LIGHTGREY);
+					} else {
 						statusText.setText("Ready");
+						statusBar.setFill(Color.LIGHTGREY);
+					}
 				} else if (browserBox.getValue().equals("Chrome") || browserBox.getValue().equals("Internet Explorer")) {
 					if (browserPath.getText().equals("")) {
 						chosenBrowser.setText("Invalid Path");
@@ -189,8 +192,10 @@ public class GUI extends Application {
 					chosenLogic.setVisible(true);
 					if (browserChosen) {
 						statusText.setText("Ready");
-					} else
+						statusBar.setFill(Color.LIGHTGREY);
+					} else {
 						statusText.setText("Waiting for Browser");
+					}
 					loadLogic.setDisable(true);
 				} else {
 					statusText.setText("Invalid file for Logic! Excepting *.bla!");
@@ -291,7 +296,7 @@ public class GUI extends Application {
 				return p.getValue().getDateProperty();
 			}
 		});
-		dateColumn.setMinWidth(120);
+		dateColumn.setMinWidth(118);
 		dateColumn.setText("Timestamp");
 		messageColumn.setCellValueFactory(new Callback<CellDataFeatures<Log, String>, ObservableValue<String>>() {
 			public ObservableValue<String> call(CellDataFeatures<Log, String> p) {
