@@ -31,7 +31,6 @@ public final class Log {
 	 */
 	public String toString() {
 		return time + ", " + text;
-
 	}
 	
 	public SimpleStringProperty getTextProperty(){
@@ -40,10 +39,6 @@ public final class Log {
 	
 	public SimpleStringProperty getDateProperty(){
 		return this.dateProperty;
-	}
-	
-	public SimpleStringProperty getLogProperty(){
-		return new SimpleStringProperty(this.toString());
 	}
 
 }
