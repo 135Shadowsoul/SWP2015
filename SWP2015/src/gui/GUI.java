@@ -1,7 +1,6 @@
 package gui;
 
 import java.io.File;
-import java.util.List;
 
 import weBot.Log;
 import javafx.application.Application;
@@ -10,10 +9,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.Separator;
+import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -25,15 +30,17 @@ import javafx.scene.shape.RectangleBuilder;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class GUI extends Application {
 
-	private List<Object> instructionList = null;
 	private File logicFile = null;
 	boolean browserChosen = false;
 	boolean logicAdded = false;
+
+	private MenuBar menubar = new MenuBar();
 
 	private final Label browserLabel = new Label("Choose your Browser:");
 	private ComboBox<String> browserBox = new ComboBox<String>();
@@ -62,24 +69,236 @@ public class GUI extends Application {
 	private final Label statusLabel = new Label("Status:");
 	private Label statusText = new Label("Waiting for Operator...");
 
+	private Separator browser_logic = new Separator();
+	private Separator top_buttons = new Separator();
+	private Separator under_buttons = new Separator();
+	private Separator top_Log = new Separator();
+
 	@Override
 	public void start(Stage arg0) throws Exception {
 
+		Stage stage = new Stage();
 		Pane pane = new Pane();
+		Rectangle statusBar = RectangleBuilder.create().width(600).height(30).x(0).y(545).fill(Color.LIGHTGREY).stroke(Color.DIMGREY).build();
 
-		Rectangle statusBar = RectangleBuilder.create().width(600).height(50).x(0).y(495).fill(Color.LIGHTGREY).stroke(Color.DIMGREY).build();
+		Menu menu = new Menu("Menu");
+		Menu browserMenu = new Menu("Browser");
+		Menu logicMenu = new Menu("Logic");
+		Menu help = new Menu("Help");
+
+		MenuItem exit = new MenuItem("Exit We-B-Ot");
+		menu.getItems().add(exit);
+
+		exit.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				stage.close();
+			}
+		});
+
+		MenuItem firefox = new MenuItem("FireFox");
+		MenuItem explorer = new MenuItem("Internet Explorer");
+		MenuItem chrome = new MenuItem("Chrome");
+		MenuItem discardBrowserItem = new MenuItem("Discard Browser");
+		discardBrowserItem.setDisable(true);
+
+		firefox.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				discardBrowserItem.setDisable(false);
+				chrome.setDisable(true);
+				explorer.setDisable(true);
+				browserPath.setDisable(true);
+				chooseBrowser.setDisable(true);
+				browserChosen = true;
+				chosenBrowser.setText("Chosen Browser: FireFox");
+				chosenBrowser.setTextFill(Color.BLACK);
+				browserPath.setPromptText("Enter Browser Path");
+				firefox.setDisable(true);
+				statusBar.setFill(Color.LIGHTGREY);
+				browserBox.setDisable(true);
+				discardBrowser.setDisable(false);
+				if (!logicAdded) {
+					statusText.setText("Waiting for Logic");
+					statusBar.setFill(Color.LIGHTGREY);
+				} else {
+					statusText.setText("Ready");
+					statusBar.setFill(Color.LIGHTGREY);
+				}
+			}
+		});
+		explorer.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				discardBrowserItem.setDisable(false);
+				browserBox.setValue("Internet Explorer");
+				browserPath.setDisable(false);
+				chosenBrowser.setText("Enter Path");
+				browserBox.setDisable(true);
+				discardBrowser.setDisable(false);
+				explorer.setDisable(true);
+				firefox.setDisable(false);
+				chrome.setDisable(false);
+
+			}
+		});
+		chrome.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+
+				discardBrowserItem.setDisable(false);
+				browserBox.setValue("Chrome");
+				browserPath.setDisable(false);
+				chosenBrowser.setText("Enter Path");
+				browserBox.setDisable(true);
+				discardBrowser.setDisable(false);
+				chrome.setDisable(true);
+				firefox.setDisable(false);
+				explorer.setDisable(false);
+			}
+		});
+		discardBrowserItem.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				browserMenu.setDisable(false);
+				chosenBrowser.setText("Chosen Browser: none");
+				browserPath.setPromptText("Enter Browser Path");
+				discardBrowser.setDisable(true);
+				browserBox.setDisable(false);
+				chooseBrowser.setDisable(false);
+				firefox.setDisable(false);
+				explorer.setDisable(false);
+				chrome.setDisable(false);
+				if (!browserBox.getValue().equals("FireFox"))
+					browserPath.setDisable(false);
+				browserChosen = false;
+				if (logicAdded) {
+					statusText.setText("Waiting for Browser");
+					statusBar.setFill(Color.LIGHTGREY);
+				} else {
+					statusText.setText("Waiting for Inputs");
+					statusBar.setFill(Color.LIGHTGREY);
+				}
+			}
+		});
+
+		browserMenu.getItems().addAll(firefox, explorer, chrome, new SeparatorMenuItem(), discardBrowserItem);
+
+		MenuItem discardLogicItem = new MenuItem("Discard Logic");
+		MenuItem loadLogicItem = new MenuItem("Load Logic");
+		loadLogicItem.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(final ActionEvent e) {
+				FileChooser fileChooser = new FileChooser();
+				ExtensionFilter filter = new ExtensionFilter("BotLanguage (*.bla)", "*.bla");
+				fileChooser.getExtensionFilters().add(filter);
+				logicFile = fileChooser.showOpenDialog(arg0);
+				if (logicFile != null && logicFile.getName().endsWith(".bla")) {
+					logicAdded = true;
+					discardLogic.setDisable(false);
+					chosenLogic.setTextFill(Color.BLACK);
+					chosenLogic.setText("Chosen Logic-file: " + logicFile.getName());
+					chosenLogic.setVisible(true);
+					discardLogicItem.setDisable(false);
+					loadLogicItem.setDisable(true);
+					if (browserChosen) {
+						statusText.setText("Ready");
+						statusBar.setFill(Color.LIGHTGREY);
+					} else {
+						statusText.setText("Waiting for Browser");
+						statusBar.setFill(Color.LIGHTGREY);
+					}
+					loadLogic.setDisable(true);
+				} else {
+					statusText.setText("Invalid file for Logic! Excepting *.bla!");
+					chosenLogic.setText("Invalid file for Logic! Excepting *.bla!");
+					chosenLogic.setTextFill(Color.RED);
+					chosenLogic.setVisible(true);
+				}
+
+			}
+		});
+
+		discardLogicItem.setDisable(true);
+		discardLogicItem.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(final ActionEvent e) {
+				if (logicFile != null) {
+					logicFile = null;
+					discardLogic.setDisable(true);
+					loadLogic.setDisable(false);
+					logicAdded = false;
+					chosenLogic.setText("Chosen Logic-File: none");
+					chosenLogic.setVisible(false);
+					loadLogicItem.setDisable(false);
+					discardLogicItem.setDisable(true);
+					if (browserChosen)
+						statusText.setText("Waiting for Logic");
+					else
+						statusText.setText("Waiting for Input");
+				} else
+					discardLogic.setDisable(true);
+			}
+		});
+		logicMenu.getItems().addAll(loadLogicItem, discardLogicItem);
+
+		MenuItem about = new MenuItem("About");
+		about.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				final Stage dialog = new Stage();
+				dialog.initModality(Modality.APPLICATION_MODAL);
+				dialog.initOwner(arg0);
+				Button ok = new Button("OK");
+				ok.setMinWidth(100);
+				ok.setOnAction(new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent event) {
+						dialog.close();
+					}
+				});
+				Label thanks = new Label("Thanks for using We-B-Ot!");
+				Label copyright = new Label("\u00a9 Andreas Knapp, Stefan Off, Julian Tritschner");
+				Label warning = new Label("Warning: Most Games banish player using bots!");
+				Label warning2 = new Label("Use at your own risk!");
+				Pane pane = new Pane();
+				warning.setTextFill(Color.RED);
+				warning2.setTextFill(Color.RED);
+				thanks.setLayoutY(20);
+				thanks.setLayoutX(80);
+				copyright.setLayoutY(60);
+				copyright.setLayoutX(30);
+				warning.setLayoutY(120);
+				warning.setLayoutX(25);
+				warning2.setLayoutY(140);
+				warning2.setLayoutX(100);
+				ok.setLayoutY(225);
+				ok.setLayoutX(100);
+				pane.getChildren().addAll(thanks, copyright, warning, warning2, ok);
+				Scene dialogScene = new Scene(pane, 300, 250);
+				dialog.setTitle("About We-B-Ot");
+				dialog.setResizable(false);
+				dialog.setScene(dialogScene);
+				dialog.show();
+			}
+		});
+
+		help.getItems().add(about);
+
+		menubar.getMenus().addAll(menu, browserMenu, logicMenu, help);
+		menubar.setMinWidth(600);
 
 		browserLabel.setLayoutX(70);
-		browserLabel.setLayoutY(10);
+		browserLabel.setLayoutY(30);
 
 		browserBox.setLayoutX(10);
-		browserBox.setLayoutY(35);
+		browserBox.setLayoutY(55);
 		browserBox.setMinWidth(100);
 		browserBox.getItems().addAll("FireFox", "Internet Explorer", "Chrome");
 		browserBox.setValue("FireFox");
 
 		browserPath.setLayoutX(150);
-		browserPath.setLayoutY(35);
+		browserPath.setLayoutY(55);
 		browserPath.setPromptText("Enter Browser Path");
 		browserPath.setDisable(true);
 		browserBox.setOnAction(new EventHandler<ActionEvent>() {
@@ -98,11 +317,14 @@ public class GUI extends Application {
 		});
 
 		chooseBrowser.setLayoutX(10);
-		chooseBrowser.setLayoutY(65);
+		chooseBrowser.setLayoutY(85);
 		chooseBrowser.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent e) {
 				if (browserBox.getValue().equals("FireFox")) {
+					chrome.setDisable(true);
+					firefox.setDisable(true);
+					explorer.setDisable(true);
 					browserPath.setDisable(true);
 					chooseBrowser.setDisable(true);
 					browserChosen = true;
@@ -123,7 +345,11 @@ public class GUI extends Application {
 						chosenBrowser.setText("Invalid Path");
 						chosenBrowser.setTextFill(Color.RED);
 					} else {
-						chosenBrowser.setText("Chosen Browser: " + browserBox.getValue() + " at " + browserPath.getText());
+						chrome.setDisable(true);
+						firefox.setDisable(true);
+						explorer.setDisable(true);
+						browserMenu.setDisable(true);
+						chosenBrowser.setText("Chosen Browser: " + browserBox.getValue());
 						chosenBrowser.setTextFill(Color.BLACK);
 						discardBrowser.setDisable(false);
 						browserBox.setDisable(true);
@@ -132,6 +358,7 @@ public class GUI extends Application {
 						chooseBrowser.setDisable(true);
 						statusBar.setFill(Color.LIGHTGREY);
 						browserChosen = true;
+						browserMenu.setDisable(true);
 						if (!logicAdded) {
 							statusText.setText("Waiting for Logic");
 							statusBar.setFill(Color.LIGHTGREY);
@@ -145,11 +372,15 @@ public class GUI extends Application {
 		});
 
 		discardBrowser.setLayoutX(115);
-		discardBrowser.setLayoutY(65);
+		discardBrowser.setLayoutY(85);
 		discardBrowser.setDisable(true);
 		discardBrowser.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
+				firefox.setDisable(false);
+				chrome.setDisable(false);
+				explorer.setDisable(false);
+				discardBrowserItem.setDisable(true);
 				chosenBrowser.setText("Chosen Browser: none");
 				browserPath.setPromptText("Enter Browser Path");
 				discardBrowser.setDisable(true);
@@ -169,19 +400,18 @@ public class GUI extends Application {
 		});
 
 		chosenBrowser.setLayoutX(10);
-		chosenBrowser.setLayoutY(95);
+		chosenBrowser.setLayoutY(115);
 
 		chooseLogic.setLayoutX(440);
-		chooseLogic.setLayoutY(10);
+		chooseLogic.setLayoutY(30);
 
 		loadLogic.setLayoutX(390);
-		loadLogic.setLayoutY(35);
+		loadLogic.setLayoutY(55);
 		loadLogic.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent e) {
 				FileChooser fileChooser = new FileChooser();
 				ExtensionFilter filter = new ExtensionFilter("BotLanguage (*.bla)", "*.bla");
-
 				fileChooser.getExtensionFilters().add(filter);
 				logicFile = fileChooser.showOpenDialog(arg0);
 				if (logicFile != null && logicFile.getName().endsWith(".bla")) {
@@ -190,11 +420,13 @@ public class GUI extends Application {
 					chosenLogic.setTextFill(Color.BLACK);
 					chosenLogic.setText("Chosen Logic-file: " + logicFile.getName());
 					chosenLogic.setVisible(true);
+					loadLogicItem.setDisable(true);
 					if (browserChosen) {
 						statusText.setText("Ready");
 						statusBar.setFill(Color.LIGHTGREY);
 					} else {
 						statusText.setText("Waiting for Browser");
+						statusBar.setFill(Color.LIGHTGREY);
 					}
 					loadLogic.setDisable(true);
 				} else {
@@ -208,7 +440,7 @@ public class GUI extends Application {
 		});
 
 		discardLogic.setLayoutX(490);
-		discardLogic.setLayoutY(35);
+		discardLogic.setLayoutY(55);
 		discardLogic.setDisable(true);
 		discardLogic.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -220,6 +452,9 @@ public class GUI extends Application {
 					logicAdded = false;
 					chosenLogic.setText("Chosen Logic-File: none");
 					chosenLogic.setVisible(false);
+					discardLogic.setDisable(true);
+					discardLogicItem.setDisable(true);
+					discardLogicItem.setDisable(false);
 					if (browserChosen)
 						statusText.setText("Waiting for Logic");
 					else
@@ -230,10 +465,10 @@ public class GUI extends Application {
 		});
 
 		chosenLogic.setLayoutX(390);
-		chosenLogic.setLayoutY(65);
+		chosenLogic.setLayoutY(85);
 
 		startButton.setLayoutX(100);
-		startButton.setLayoutY(130);
+		startButton.setLayoutY(150);
 		startButton.setMinSize(100, 50);
 		startButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -248,8 +483,7 @@ public class GUI extends Application {
 					addLog(log);
 					stopButton.setDisable(false);
 					// TODO
-					// Ruft den Converter auf und übergibt die Liste an den
-					// We-B-Ot
+					// Ruft den We-B-Ot auf Browser ( + Path) + File
 				} else if (browserChosen) {
 					statusText.setText("Missing Logic!");
 					statusBar.setFill(Color.RED);
@@ -264,7 +498,7 @@ public class GUI extends Application {
 		});
 
 		stopButton.setLayoutX(400);
-		stopButton.setLayoutY(130);
+		stopButton.setLayoutY(150);
 		stopButton.setMinSize(100, 50);
 		stopButton.setDisable(true);
 		stopButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -283,10 +517,10 @@ public class GUI extends Application {
 		// scoreText.setLayoutY(250);
 
 		logLabel.setLayoutX(270);
-		logLabel.setLayoutY(290);
+		logLabel.setLayoutY(330);
 		logLabel.setFont(new Font("Arial", 20));
 		logTable.setLayoutX(10);
-		logTable.setLayoutY(320);
+		logTable.setLayoutY(360);
 		logTable.setMaxHeight(150);
 		logTable.setMaxWidth(570);
 		logTable.setMinWidth(570);
@@ -311,20 +545,30 @@ public class GUI extends Application {
 		logTable.getColumns().add(messageColumn);
 
 		statusLabel.setLayoutX(10);
-		statusLabel.setLayoutY(500);
+		statusLabel.setLayoutY(550);
 		statusText.setLayoutX(50);
-		statusText.setLayoutY(500);
+		statusText.setLayoutY(550);
+
+		top_buttons.setLayoutY(140);
+		top_buttons.setMinWidth(600);
+		under_buttons.setLayoutY(210);
+		under_buttons.setMinWidth(600);
+		top_Log.setLayoutY(320);
+		top_Log.setMinWidth(600);
+		browser_logic.setOrientation(Orientation.VERTICAL);
+		browser_logic.setLayoutX(360);
+		browser_logic.setMinHeight(140);
 
 		pane.getChildren().addAll(chooseLogic, loadLogic, discardLogic, chosenLogic, browserBox, browserLabel, browserPath, chooseBrowser, discardBrowser, chosenBrowser,
 				startButton, stopButton,
 				// scoreLabel, scoreText,
-				logLabel, logTable, statusBar, statusLabel, statusText);
+				logLabel, logTable, statusBar, statusLabel, statusText, top_buttons, top_Log, under_buttons, browser_logic, menubar);
 
 		Scene scene = new Scene(pane);
-		Stage stage = new Stage();
+
 		stage.setTitle("We-B-Bot");
 		stage.centerOnScreen();
-		stage.setHeight(550);
+		stage.setHeight(600);
 		stage.setWidth(600);
 		stage.setResizable(false);
 		stage.setScene(scene);
@@ -334,10 +578,6 @@ public class GUI extends Application {
 
 	public static void main(String[] args) {
 		launch(args);
-	}
-
-	public List<Object> getInstructions() {
-		return this.instructionList;
 	}
 
 	public void setStatus(String message) {
