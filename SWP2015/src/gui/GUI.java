@@ -1,8 +1,10 @@
 package gui;
 
 import java.io.File;
+import java.util.List;
 
 import weBot.Log;
+import weBot.WatchValue;
 import javafx.application.Application;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -57,14 +59,17 @@ public class GUI extends Application {
 	private final Button startButton = new Button("Start");
 	private final Button stopButton = new Button("Stop");
 
-	// private Label scoreLabel = new Label("No Score");
-	// private Label scoreText = new Label("Nothing to watch");
-
 	private final Label logLabel = new Label("Logs");
 	private TableView<Log> logTable = new TableView<Log>();
 	private TableColumn<Log, String> messageColumn = new TableColumn<Log, String>();
 	private TableColumn<Log, String> dateColumn = new TableColumn<Log, String>();
 	private ObservableList<Log> logList = FXCollections.observableArrayList(new Log("Programm Started"));
+
+	private final Label scoreLabel = new Label("Values to watch on");
+	private TableView<WatchValue> scoreTable = new TableView<WatchValue>();
+	private TableColumn<WatchValue, String> scoreNameColumn = new TableColumn<WatchValue, String>();
+	private TableColumn<WatchValue, String> scoreValueColumn = new TableColumn<WatchValue, String>();
+	private ObservableList<WatchValue> scoreList = FXCollections.observableArrayList();
 
 	private final Label statusLabel = new Label("Status:");
 	private Label statusText = new Label("Waiting for Operator...");
@@ -139,7 +144,6 @@ public class GUI extends Application {
 				explorer.setDisable(true);
 				firefox.setDisable(false);
 				chrome.setDisable(false);
-
 			}
 		});
 		chrome.setOnAction(new EventHandler<ActionEvent>() {
@@ -511,16 +515,11 @@ public class GUI extends Application {
 			}
 		});
 
-		// scoreLabel.setLayoutX(10);
-		// scoreLabel.setLayoutY(230);
-		// scoreText.setLayoutX(10);
-		// scoreText.setLayoutY(250);
-
 		logLabel.setLayoutX(270);
-		logLabel.setLayoutY(330);
+		logLabel.setLayoutY(350);
 		logLabel.setFont(new Font("Arial", 20));
 		logTable.setLayoutX(10);
-		logTable.setLayoutY(360);
+		logTable.setLayoutY(380);
 		logTable.setMaxHeight(150);
 		logTable.setMaxWidth(570);
 		logTable.setMinWidth(570);
@@ -537,12 +536,27 @@ public class GUI extends Application {
 				return p.getValue().getTextProperty();
 			}
 		});
+
 		messageColumn.setMinWidth(450);
 		messageColumn.setText("Message");
 
 		logTable.setItems(logList);
 		logTable.getColumns().add(dateColumn);
 		logTable.getColumns().add(messageColumn);
+
+		scoreLabel.setLayoutX(230);
+		scoreLabel.setLayoutY(220);
+		scoreLabel.setFont(new Font("Arial", 15));
+		scoreTable.setLayoutX(10);
+		scoreTable.setLayoutY(240);
+		scoreTable.setMaxWidth(570);
+		scoreTable.setMinWidth(570);
+		scoreTable.setMaxHeight(85);
+		scoreTable.setItems(scoreList);
+		scoreTable.getColumns().add(scoreNameColumn);
+		scoreTable.getColumns().add(scoreValueColumn);
+		scoreTable.setVisible(false);
+		scoreLabel.setVisible(false);
 
 		statusLabel.setLayoutX(10);
 		statusLabel.setLayoutY(550);
@@ -553,16 +567,15 @@ public class GUI extends Application {
 		top_buttons.setMinWidth(600);
 		under_buttons.setLayoutY(210);
 		under_buttons.setMinWidth(600);
-		top_Log.setLayoutY(320);
+		top_Log.setLayoutY(340);
 		top_Log.setMinWidth(600);
 		browser_logic.setOrientation(Orientation.VERTICAL);
-		browser_logic.setLayoutX(360);
+		browser_logic.setLayoutX(350);
 		browser_logic.setMinHeight(140);
 
 		pane.getChildren().addAll(chooseLogic, loadLogic, discardLogic, chosenLogic, browserBox, browserLabel, browserPath, chooseBrowser, discardBrowser, chosenBrowser,
-				startButton, stopButton,
-				// scoreLabel, scoreText,
-				logLabel, logTable, statusBar, statusLabel, statusText, top_buttons, top_Log, under_buttons, browser_logic, menubar);
+				startButton, stopButton, logLabel, logTable, statusBar, statusLabel, statusText, top_buttons, top_Log, under_buttons, browser_logic, menubar, scoreLabel,
+				scoreTable);
 
 		Scene scene = new Scene(pane);
 
@@ -595,10 +608,36 @@ public class GUI extends Application {
 		addLog(log);
 	}
 
-	// public void setScore(String name, String message) {
-	// scoreLabel.setText(name + ":");
-	// scoreText.setText(message);
-	// }
+	public void setWatchValues(List<WatchValue> watchValues) {
+		scoreTable.getColumns().clear();
+		scoreList.clear();
+		scoreList.addAll(watchValues);
+		scoreNameColumn.setCellValueFactory(new Callback<CellDataFeatures<WatchValue, String>, ObservableValue<String>>() {
+			public ObservableValue<String> call(CellDataFeatures<WatchValue, String> p) {
+				return p.getValue().getNameProperty();
+			}
+		});
+		scoreNameColumn.setMinWidth(119);
+		scoreNameColumn.setText("Name");
+
+		scoreValueColumn.setCellValueFactory(new Callback<CellDataFeatures<WatchValue, String>, ObservableValue<String>>() {
+			public ObservableValue<String> call(CellDataFeatures<WatchValue, String> p) {
+				return p.getValue().getValueProperty();
+			}
+		});
+		scoreValueColumn.setMinWidth(450);
+		scoreValueColumn.setText("Value");
+		scoreTable.getColumns().add(scoreNameColumn);
+		scoreTable.getColumns().add(scoreValueColumn);
+
+		if (watchValues.size() == 1)
+			scoreTable.setMaxHeight(65);
+		else
+			scoreTable.setMaxHeight(90);
+
+		scoreTable.setVisible(true);
+		scoreLabel.setVisible(true);
+	}
 
 	public void addLog(Log log) {
 		logList.add(0, log);
