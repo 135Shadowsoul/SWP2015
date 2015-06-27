@@ -731,6 +731,7 @@ public class GUI extends Application {
 		configProps.load(inputStream);
 		inputStream.close();
 
+		// setting up loaded props
 		browserBox.setValue(configProps.getProperty("Browser"));
 		browserPath.setText(configProps.getProperty("BrowserPath"));
 		chooseBrowser.fire();
