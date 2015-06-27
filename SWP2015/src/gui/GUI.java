@@ -726,14 +726,6 @@ public class GUI extends Application {
 
 	private void loadDefault() throws Exception {
 
-		Properties defaultProps = new Properties();
-		// sets default properties
-		defaultProps.setProperty("Browser", "FireFox");
-		defaultProps.setProperty("BrowserPath", "");
-		defaultProps.setProperty("LogicFile", "");
-
-		configProps = new Properties(defaultProps);
-
 		// loads properties from file
 		InputStream inputStream = new FileInputStream((System.getProperty("user.dir") + System.getProperty("file.separator") + "Bot.conf"));
 		configProps.load(inputStream);
