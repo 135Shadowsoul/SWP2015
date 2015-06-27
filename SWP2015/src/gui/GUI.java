@@ -48,7 +48,7 @@ public class GUI extends Application {
 
 	}
 
-	private File configFile = new File(System.getProperty("user.dir") + System.getProperty("file.separator") + "Bot.conf");
+	private File configFile = new File(System.getProperty("user.home") + System.getProperty("file.separator") + "Bot.conf");
 	private Properties configProps = new Properties();
 
 	private File logicFile = null;
@@ -723,7 +723,7 @@ public class GUI extends Application {
 	private void loadDefault() throws Exception {
 
 		// loads properties from file
-		InputStream inputStream = new FileInputStream((System.getProperty("user.dir") + System.getProperty("file.separator") + "Bot.conf"));
+		InputStream inputStream = new FileInputStream((System.getProperty("user.home") + System.getProperty("file.separator") + "Bot.conf"));
 		configProps.load(inputStream);
 		inputStream.close();
 
