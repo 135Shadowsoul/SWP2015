@@ -115,10 +115,9 @@ public class GUI extends Application {
 	@Override
 	public void start(Stage arg0) throws Exception {
 
-		// configFile = new File(System.getProperty("user.dir") + );
-
 		Stage stage = new Stage();
 		Pane pane = new Pane();
+
 		statusBar = RectangleBuilder.create().width(600).height(30).x(0).y(545).fill(Color.LIGHTGREY).stroke(Color.DIMGREY).build();
 
 		menu.getItems().addAll(save, new SeparatorMenuItem(), exit);
@@ -126,9 +125,7 @@ public class GUI extends Application {
 		save.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				if (!System.getProperty("os.name").contains("Windows")) {
-					statusText.setText("Windows required for this feature");
-				} else if (!logicAdded && !browserChosen) {
+				if (!logicAdded && !browserChosen) {
 					statusText.setText("Nothing to save!");
 				} else if (!logicAdded) {
 					statusText.setText("Missing Logic!");
@@ -139,7 +136,6 @@ public class GUI extends Application {
 						saveDefault();
 						statusText.setText("Done saving Config");
 					} catch (IOException e) {
-						e.printStackTrace();
 						statusText.setText("Error while saving configuration");
 					}
 			}
