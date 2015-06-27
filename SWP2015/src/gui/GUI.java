@@ -1,7 +1,13 @@
 package gui;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
+import java.util.Properties;
 
 import weBot.Log;
 import weBot.WatchValue;
@@ -41,6 +47,9 @@ public class GUI extends Application {
 	public GUI() {
 
 	}
+
+	private File configFile = new File(System.getProperty("user.dir") + System.getProperty("file.separator") + "Bot.conf");
+	private Properties configProps = new Properties();
 
 	private File logicFile = null;
 	private boolean browserChosen = false;
@@ -85,20 +94,56 @@ public class GUI extends Application {
 
 	private Rectangle statusBar;
 
+	private Menu menu = new Menu("Menu");
+	private Menu browserMenu = new Menu("Browser");
+	private Menu logicMenu = new Menu("Logic");
+	private Menu help = new Menu("Help");
+
+	private MenuItem save = new MenuItem("Save as Default");
+	private MenuItem exit = new MenuItem("Exit We-B-Ot");
+
+	private MenuItem firefox = new MenuItem("FireFox");
+	private MenuItem explorer = new MenuItem("Internet Explorer");
+	private MenuItem chrome = new MenuItem("Chrome");
+	private MenuItem discardBrowserItem = new MenuItem("Discard Browser");
+
+	private MenuItem discardLogicItem = new MenuItem("Discard Logic");
+	private MenuItem loadLogicItem = new MenuItem("Load Logic");
+
+	MenuItem about = new MenuItem("About");
+
 	@Override
 	public void start(Stage arg0) throws Exception {
+
+		// configFile = new File(System.getProperty("user.dir") + );
 
 		Stage stage = new Stage();
 		Pane pane = new Pane();
 		statusBar = RectangleBuilder.create().width(600).height(30).x(0).y(545).fill(Color.LIGHTGREY).stroke(Color.DIMGREY).build();
 
-		Menu menu = new Menu("Menu");
-		Menu browserMenu = new Menu("Browser");
-		Menu logicMenu = new Menu("Logic");
-		Menu help = new Menu("Help");
+		menu.getItems().addAll(save, new SeparatorMenuItem(), exit);
 
-		MenuItem exit = new MenuItem("Exit We-B-Ot");
-		menu.getItems().add(exit);
+		save.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				if (!System.getProperty("os.name").contains("Windows")) {
+					statusText.setText("Windows required for this feature");
+				} else if (!logicAdded && !browserChosen) {
+					statusText.setText("Nothing to save!");
+				} else if (!logicAdded) {
+					statusText.setText("Missing Logic!");
+				} else if (!browserChosen) {
+					statusText.setText("Missing Browser!");
+				} else
+					try {
+						saveDefault();
+						statusText.setText("Done saving Config");
+					} catch (IOException e) {
+						e.printStackTrace();
+						statusText.setText("Error while saving configuration");
+					}
+			}
+		});
 
 		exit.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -107,10 +152,6 @@ public class GUI extends Application {
 			}
 		});
 
-		MenuItem firefox = new MenuItem("FireFox");
-		MenuItem explorer = new MenuItem("Internet Explorer");
-		MenuItem chrome = new MenuItem("Chrome");
-		MenuItem discardBrowserItem = new MenuItem("Discard Browser");
 		discardBrowserItem.setDisable(true);
 
 		firefox.setOnAction(new EventHandler<ActionEvent>() {
@@ -119,6 +160,7 @@ public class GUI extends Application {
 				discardBrowserItem.setDisable(false);
 				chrome.setDisable(true);
 				explorer.setDisable(true);
+				browserBox.setValue("FireFox");
 				browserPath.setDisable(true);
 				chooseBrowser.setDisable(true);
 				browserChosen = true;
@@ -194,8 +236,6 @@ public class GUI extends Application {
 
 		browserMenu.getItems().addAll(firefox, explorer, chrome, new SeparatorMenuItem(), discardBrowserItem);
 
-		MenuItem discardLogicItem = new MenuItem("Discard Logic");
-		MenuItem loadLogicItem = new MenuItem("Load Logic");
 		loadLogicItem.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(final ActionEvent e) {
@@ -211,6 +251,7 @@ public class GUI extends Application {
 					chosenLogic.setVisible(true);
 					discardLogicItem.setDisable(false);
 					loadLogicItem.setDisable(true);
+					discardLogic.setDisable(false);
 					if (browserChosen) {
 						statusText.setText("Ready");
 						statusBar.setFill(Color.LIGHTGREY);
@@ -252,7 +293,6 @@ public class GUI extends Application {
 		});
 		logicMenu.getItems().addAll(loadLogicItem, discardLogicItem);
 
-		MenuItem about = new MenuItem("About");
 		about.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -358,7 +398,6 @@ public class GUI extends Application {
 						chrome.setDisable(true);
 						firefox.setDisable(true);
 						explorer.setDisable(true);
-						browserMenu.setDisable(true);
 						chosenBrowser.setText("Chosen Browser: " + browserBox.getValue());
 						chosenBrowser.setTextFill(Color.BLACK);
 						discardBrowser.setDisable(false);
@@ -368,7 +407,6 @@ public class GUI extends Application {
 						chooseBrowser.setDisable(true);
 						statusBar.setFill(Color.LIGHTGREY);
 						browserChosen = true;
-						browserMenu.setDisable(true);
 						if (!logicAdded) {
 							statusText.setText("Waiting for Logic");
 							statusBar.setFill(Color.LIGHTGREY);
@@ -483,10 +521,10 @@ public class GUI extends Application {
 		startButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
+				startPressed();
 				// TODO
 				// Extern einzustellen!!
-				// Startet den Bot				
-				startPressed();
+				// Startet den Bot
 			}
 		});
 
@@ -566,7 +604,11 @@ public class GUI extends Application {
 				startButton, stopButton, logLabel, logTable, statusBar, statusLabel, statusText, top_buttons, top_Log, under_buttons, browser_logic, menubar, scoreLabel,
 				scoreTable);
 
-		loadDefault();
+		try {
+			loadDefault();
+		} catch (Exception e) {
+
+		}
 
 		Scene scene = new Scene(pane);
 
@@ -594,6 +636,7 @@ public class GUI extends Application {
 		chooseBrowser.setDisable(true);
 		stopButton.setDisable(true);
 		startButton.setDisable(false);
+		discardLogicItem.setDisable(false);
 		statusText.setText(message);
 		Log log = new Log(message);
 		addLog(log);
@@ -681,8 +724,46 @@ public class GUI extends Application {
 		stop("Stopped by Operator!");
 	}
 
-	private void loadDefault() {
-		// TODO
+	private void loadDefault() throws Exception {
+
+		Properties defaultProps = new Properties();
+		// sets default properties
+		defaultProps.setProperty("Browser", "FireFox");
+		defaultProps.setProperty("BrowserPath", "");
+		defaultProps.setProperty("LogicFile", "");
+
+		configProps = new Properties(defaultProps);
+
+		// loads properties from file
+		InputStream inputStream = new FileInputStream((System.getProperty("user.dir") + System.getProperty("file.separator") + "Bot.conf"));
+		configProps.load(inputStream);
+		inputStream.close();
+
+		browserBox.setValue(configProps.getProperty("Browser"));
+		browserPath.setText(configProps.getProperty("BrowserPath"));
+		chooseBrowser.fire();
+		logicFile = new File(configProps.getProperty("LogicFile"));
+		logicAdded = true;
+		discardLogic.setDisable(false);
+		loadLogic.setDisable(true);
+		chosenLogic.setTextFill(Color.BLACK);
+		chosenLogic.setText("Chosen Logic-file: " + logicFile.getName());
+		chosenLogic.setVisible(true);
+		loadLogicItem.setDisable(true);
+		statusText.setText("Loaded Default... Read to start");
+
+	}
+
+	private void saveDefault() throws IOException {
+
+		configProps.setProperty("Browser", browserBox.getValue());
+		configProps.setProperty("BrowserPath", browserPath.getText());
+		configProps.setProperty("LogicFile", logicFile.getPath());
+
+		OutputStream outputStream = new FileOutputStream(configFile);
+		configProps.store(outputStream, "We-B-ot Settings");
+		outputStream.close();
+
 	}
 
 }
