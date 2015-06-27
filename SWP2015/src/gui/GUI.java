@@ -340,6 +340,7 @@ public class GUI extends Application {
 		browserBox.setLayoutX(10);
 		browserBox.setLayoutY(55);
 		browserBox.setMinWidth(100);
+		browserBox.getStylesheets().add(getClass().getResource("combo-size.css").toExternalForm());
 		browserBox.getItems().addAll("FireFox", "Internet Explorer", "Chrome");
 		browserBox.setValue("FireFox");
 
@@ -731,14 +732,26 @@ public class GUI extends Application {
 		browserBox.setValue(configProps.getProperty("Browser"));
 		browserPath.setText(configProps.getProperty("BrowserPath"));
 		chooseBrowser.fire();
-		logicFile = new File(configProps.getProperty("LogicFile"));
-		logicAdded = true;
-		discardLogic.setDisable(false);
-		loadLogic.setDisable(true);
-		chosenLogic.setTextFill(Color.BLACK);
-		chosenLogic.setText("Chosen Logic-file: " + logicFile.getName());
-		chosenLogic.setVisible(true);
-		loadLogicItem.setDisable(true);
+		File file = new File(configProps.getProperty("LogicFile"));
+		if (file.exists()) {
+			logicFile = file;
+			logicAdded = true;
+			discardLogic.setDisable(false);
+			loadLogic.setDisable(true);
+			chosenLogic.setTextFill(Color.BLACK);
+			chosenLogic.setText("Chosen Logic-file: " + logicFile.getName());
+			chosenLogic.setVisible(true);
+			loadLogicItem.setDisable(true);
+			discardLogic.setDisable(false);
+			loadLogic.setDisable(true);
+			chosenLogic.setTextFill(Color.BLACK);
+			chosenLogic.setText("Chosen Logic-file: " + logicFile.getName());
+			chosenLogic.setVisible(true);
+			discardLogicItem.setDisable(false);
+		} else {
+			statusText.setText("Error occured while loading logic");
+		}
+		discardBrowserItem.setDisable(false);
 		statusText.setText("Loaded Default... Read to start");
 
 	}
