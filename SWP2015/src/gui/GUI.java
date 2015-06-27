@@ -101,6 +101,7 @@ public class GUI extends Application {
 
 	private MenuItem save = new MenuItem("Save as Default");
 	private MenuItem exit = new MenuItem("Exit We-B-Ot");
+	private MenuItem delete = new MenuItem("Delete default file");
 
 	private MenuItem firefox = new MenuItem("FireFox");
 	private MenuItem explorer = new MenuItem("Internet Explorer");
@@ -120,7 +121,7 @@ public class GUI extends Application {
 
 		statusBar = RectangleBuilder.create().width(600).height(30).x(0).y(545).fill(Color.LIGHTGREY).stroke(Color.DIMGREY).build();
 
-		menu.getItems().addAll(save, new SeparatorMenuItem(), exit);
+		menu.getItems().addAll(save, delete, new SeparatorMenuItem(), exit);
 
 		save.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -134,10 +135,24 @@ public class GUI extends Application {
 				} else
 					try {
 						saveDefault();
+						delete.setDisable(false);
 						statusText.setText("Done saving Config");
 					} catch (IOException e) {
 						statusText.setText("Error while saving configuration");
 					}
+			}
+		});
+
+		if (!configFile.exists()) {
+			delete.setDisable(true);
+		}
+
+		delete.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				configFile.delete();
+				delete.setDisable(true);
+				statusText.setText("Config-file deletet!");
 			}
 		});
 
