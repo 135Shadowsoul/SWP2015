@@ -83,12 +83,14 @@ public class GUI extends Application {
 	private Separator under_buttons = new Separator();
 	private Separator top_Log = new Separator();
 
+	private Rectangle statusBar;
+
 	@Override
 	public void start(Stage arg0) throws Exception {
 
 		Stage stage = new Stage();
 		Pane pane = new Pane();
-		Rectangle statusBar = RectangleBuilder.create().width(600).height(30).x(0).y(545).fill(Color.LIGHTGREY).stroke(Color.DIMGREY).build();
+		statusBar = RectangleBuilder.create().width(600).height(30).x(0).y(545).fill(Color.LIGHTGREY).stroke(Color.DIMGREY).build();
 
 		Menu menu = new Menu("Menu");
 		Menu browserMenu = new Menu("Browser");
@@ -481,27 +483,10 @@ public class GUI extends Application {
 		startButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				if (browserChosen && logicAdded) {
-					discardLogic.setDisable(true);
-					discardBrowser.setDisable(true);
-					startButton.setDisable(true);
-					statusText.setText("Starting...");
-					statusBar.setFill(Color.LIGHTGREY);
-					Log log = new Log("Start running...");
-					addLog(log);
-					stopButton.setDisable(false);
-					// TODO
-					// Ruft den We-B-Ot auf Browser ( + Path) + File
-				} else if (browserChosen) {
-					statusText.setText("Missing Logic!");
-					statusBar.setFill(Color.RED);
-				} else if (logicAdded) {
-					statusText.setText("Missing Browser!");
-					statusBar.setFill(Color.RED);
-				} else {
-					statusText.setText("Missing Browser and Logic!");
-					statusBar.setFill(Color.RED);
-				}
+				// TODO
+				// Extern einzustellen!!
+				// Startet den Bot				
+				startPressed();
 			}
 		});
 
@@ -513,9 +498,9 @@ public class GUI extends Application {
 			@Override
 			public void handle(ActionEvent arg0) {
 				// TODO
-				// Stoppt das Programm
-				stop("Stopped by Operator!");
-
+				// Extern einzustellen!!
+				// Stoppt den Bot
+				stopPressed();
 			}
 		});
 
@@ -581,6 +566,8 @@ public class GUI extends Application {
 				startButton, stopButton, logLabel, logTable, statusBar, statusLabel, statusText, top_buttons, top_Log, under_buttons, browser_logic, menubar, scoreLabel,
 				scoreTable);
 
+		loadDefault();
+
 		Scene scene = new Scene(pane);
 
 		stage.setTitle("We-B-Bot");
@@ -645,6 +632,57 @@ public class GUI extends Application {
 
 	public void addLog(Log log) {
 		logList.add(0, log);
+	}
+
+	public Button startButton() {
+		return this.startButton;
+	}
+
+	public Button stopButton() {
+		return this.stopButton;
+	}
+
+	public String getBrowser() {
+		return browserBox.getValue();
+	}
+
+	public String getBrowserPath() {
+		return browserPath.getText();
+	}
+
+	public File getLogic() {
+		return this.logicFile;
+	}
+
+	public void startPressed() {
+		if (browserChosen && !logicAdded) {
+			statusText.setText("Missing Logic!");
+			statusBar.setFill(Color.RED);
+		} else if (!browserChosen && logicAdded) {
+			statusText.setText("Missing Browser!");
+			statusBar.setFill(Color.RED);
+		} else if (!browserChosen && !logicAdded) {
+			statusText.setText("Missing Browser and Logic!");
+			statusBar.setFill(Color.RED);
+		} else {
+			discardLogic.setDisable(true);
+			discardBrowser.setDisable(true);
+			startButton.setDisable(true);
+			statusText.setText("Starting...");
+			statusBar.setFill(Color.LIGHTGREY);
+			Log log = new Log("Start running...");
+			addLog(log);
+			stopButton.setDisable(false);
+		}
+
+	}
+
+	public void stopPressed() {
+		stop("Stopped by Operator!");
+	}
+
+	private void loadDefault() {
+		// TODO
 	}
 
 }
