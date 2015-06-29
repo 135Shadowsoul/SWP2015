@@ -11,7 +11,6 @@ import java.util.Properties;
 
 import weBot.Log;
 import weBot.WatchValue;
-import javafx.application.Application;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -42,10 +41,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-public class GUI extends Application {
+public class GUI // extends Application
+{
 
 	public GUI() {
-
 	}
 
 	private File configFile = new File(System.getProperty("user.home") + System.getProperty("file.separator") + "Bot.conf");
@@ -63,6 +62,7 @@ public class GUI extends Application {
 	private Button chooseBrowser = new Button("Choose Browser");
 	private Button discardBrowser = new Button("Discard Browser");
 	private Label chosenBrowser = new Label("Chosen Browser: none");
+	private Button browserPathButton = new Button("...");
 
 	private final Label chooseLogic = new Label("Choose your Logic:");
 	private final Label chosenLogic = new Label("Chosen Logic-File: none");
@@ -76,7 +76,7 @@ public class GUI extends Application {
 	private TableView<Log> logTable = new TableView<Log>();
 	private TableColumn<Log, String> messageColumn = new TableColumn<Log, String>();
 	private TableColumn<Log, String> dateColumn = new TableColumn<Log, String>();
-	private ObservableList<Log> logList = FXCollections.observableArrayList(new Log("Programm Started"));
+	private ObservableList<Log> logList = FXCollections.observableArrayList(new Log("Programm opened"));
 
 	private final Label scoreLabel = new Label("Values to watch on");
 	private TableView<WatchValue> scoreTable = new TableView<WatchValue>();
@@ -113,8 +113,7 @@ public class GUI extends Application {
 
 	MenuItem about = new MenuItem("About");
 
-	@Override
-	public void start(Stage arg0) throws Exception {
+	public void start(Stage arg0) {
 
 		Stage stage = new Stage();
 		Pane pane = new Pane();
@@ -168,20 +167,22 @@ public class GUI extends Application {
 		firefox.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
+				browserPath.setPromptText("No Browser Path needed");
+				browserPath.setDisable(true);
 				discardBrowserItem.setDisable(false);
 				chrome.setDisable(true);
 				explorer.setDisable(true);
 				browserBox.setValue("FireFox");
-				browserPath.setDisable(true);
-				chooseBrowser.setDisable(true);
+				chooseBrowser.setDisable(false);
 				browserChosen = true;
 				chosenBrowser.setText("Chosen Browser: FireFox");
 				chosenBrowser.setTextFill(Color.BLACK);
-				browserPath.setPromptText("Enter Browser Path");
 				firefox.setDisable(true);
 				statusBar.setFill(Color.LIGHTGREY);
 				browserBox.setDisable(true);
 				discardBrowser.setDisable(false);
+				chooseBrowser.setDisable(true);
+				browserPathButton.setDisable(true);
 				if (!logicAdded) {
 					statusText.setText("Waiting for Logic");
 					statusBar.setFill(Color.LIGHTGREY);
@@ -203,12 +204,13 @@ public class GUI extends Application {
 				explorer.setDisable(true);
 				firefox.setDisable(false);
 				chrome.setDisable(false);
+				browserPathButton.setDisable(false);
+				browserBox.setDisable(false);
 			}
 		});
 		chrome.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-
 				discardBrowserItem.setDisable(false);
 				browserBox.setValue("Chrome");
 				browserPath.setDisable(false);
@@ -218,6 +220,8 @@ public class GUI extends Application {
 				chrome.setDisable(true);
 				firefox.setDisable(false);
 				explorer.setDisable(false);
+				browserPathButton.setDisable(false);
+				browserBox.setDisable(false);
 			}
 		});
 		discardBrowserItem.setOnAction(new EventHandler<ActionEvent>() {
@@ -361,7 +365,7 @@ public class GUI extends Application {
 
 		browserPath.setLayoutX(150);
 		browserPath.setLayoutY(55);
-		browserPath.setPromptText("Enter Browser Path");
+		browserPath.setPromptText("No Browser Path needed");
 		browserPath.setDisable(true);
 		browserBox.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -370,11 +374,41 @@ public class GUI extends Application {
 				if (browser.equals("FireFox")) {
 					browserPath.setDisable(true);
 					browserPath.setText("");
+					firefox.setDisable(true);
+					chrome.setDisable(false);
+					explorer.setDisable(false);
+					browserPath.setPromptText("No Browser Path needed");
+					browserPathButton.setDisable(true);
 				} else {
 					browserPath.setDisable(false);
 					browserChosen = false;
 					browserPath.setText("");
+					firefox.setDisable(false);
+					browserPathButton.setDisable(false);
+					if (browser.equals("Internet Explorer")) {
+						explorer.setDisable(true);
+						chrome.setDisable(false);
+						browserPath.setPromptText("Enter Browser Path");
+					} else {
+						explorer.setDisable(false);
+						chrome.setDisable(true);
+						browserPath.setPromptText("Enter Browser Path");
+					}
 				}
+			}
+		});
+
+		browserPathButton.setLayoutX(300);
+		browserPathButton.setLayoutY(55);
+		browserPathButton.setDisable(true);
+		browserPathButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(final ActionEvent e) {
+				FileChooser fileChooser = new FileChooser();
+				ExtensionFilter filter = new ExtensionFilter("*driver.exe (*.exe)", "*.exe");
+				fileChooser.getExtensionFilters().add(filter);
+				File filePath = fileChooser.showOpenDialog(arg0);
+				browserPath.setText(filePath.getAbsolutePath());
 			}
 		});
 
@@ -396,6 +430,7 @@ public class GUI extends Application {
 					browserBox.setDisable(true);
 					discardBrowser.setDisable(false);
 					discardBrowserItem.setDisable(false);
+					browserPathButton.setDisable(true);
 					if (!logicAdded) {
 						statusText.setText("Waiting for Logic");
 						statusBar.setFill(Color.LIGHTGREY);
@@ -407,6 +442,7 @@ public class GUI extends Application {
 					if (browserPath.getText().equals("")) {
 						chosenBrowser.setText("Invalid Path");
 						chosenBrowser.setTextFill(Color.RED);
+						browserPathButton.setDisable(false);
 					} else {
 						chrome.setDisable(true);
 						firefox.setDisable(true);
@@ -439,12 +475,19 @@ public class GUI extends Application {
 		discardBrowser.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
+				if (!browserBox.getValue().equals("FireFox")) {
+					browserPath.setPromptText("Enter Browser Path");
+					browserPathButton.setDisable(false);
+				} else {
+					browserPath.setPromptText("No Browser Path needed");
+					browserPathButton.setDisable(true);
+				}
 				firefox.setDisable(false);
 				chrome.setDisable(false);
 				explorer.setDisable(false);
 				discardBrowserItem.setDisable(true);
 				chosenBrowser.setText("Chosen Browser: none");
-				browserPath.setPromptText("Enter Browser Path");
+				browserPath.setText("");
 				discardBrowser.setDisable(true);
 				browserBox.setDisable(false);
 				chooseBrowser.setDisable(false);
@@ -614,9 +657,9 @@ public class GUI extends Application {
 		browser_logic.setLayoutX(350);
 		browser_logic.setMinHeight(140);
 
-		pane.getChildren().addAll(chooseLogic, loadLogic, discardLogic, chosenLogic, browserBox, browserLabel, browserPath, chooseBrowser, discardBrowser, chosenBrowser,
-				startButton, stopButton, logLabel, logTable, statusBar, statusLabel, statusText, top_buttons, top_Log, under_buttons, browser_logic, menubar, scoreLabel,
-				scoreTable);
+		pane.getChildren().addAll(chooseLogic, loadLogic, discardLogic, chosenLogic, browserBox, browserLabel, browserPath, browserPathButton, chooseBrowser, discardBrowser,
+				chosenBrowser, startButton, stopButton, logLabel, logTable, statusBar, statusLabel, statusText, top_buttons, top_Log, under_buttons, browser_logic, menubar,
+				scoreLabel, scoreTable);
 
 		try {
 			loadDefault();
@@ -636,9 +679,9 @@ public class GUI extends Application {
 
 	}
 
-	public static void main(String[] args) {
-		launch(args);
-	}
+	// public static void main(String[] args) {
+	// launch(args);
+	// }
 
 	public void setStatus(String message) {
 		statusText.setText(message);
@@ -715,12 +758,12 @@ public class GUI extends Application {
 		if (!logicAdded) {
 			statusText.setText("Missing Logic!");
 			statusBar.setFill(Color.RED);
-//		} else if (!browserChosen && logicAdded) {
-//			statusText.setText("Missing Browser!");
-//			statusBar.setFill(Color.RED);
-//		} else if (!browserChosen && !logicAdded) {
-//			statusText.setText("Missing Browser and Logic!");
-//			statusBar.setFill(Color.RED);
+			// } else if (!browserChosen && logicAdded) {
+			// statusText.setText("Missing Browser!");
+			// statusBar.setFill(Color.RED);
+			// } else if (!browserChosen && !logicAdded) {
+			// statusText.setText("Missing Browser and Logic!");
+			// statusBar.setFill(Color.RED);
 		} else {
 			discardLogic.setDisable(true);
 			discardBrowser.setDisable(true);
@@ -740,8 +783,8 @@ public class GUI extends Application {
 	public void stopPressed() {
 		stop("Stopped by Operator!");
 	}
-	
-	public boolean browserAdded(){
+
+	public boolean browserAdded() {
 		return this.browserChosen;
 	}
 
