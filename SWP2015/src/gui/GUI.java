@@ -408,7 +408,9 @@ public class GUI // extends Application
 				ExtensionFilter filter = new ExtensionFilter("*driver.exe (*.exe)", "*.exe");
 				fileChooser.getExtensionFilters().add(filter);
 				File filePath = fileChooser.showOpenDialog(arg0);
-				browserPath.setText(filePath.getAbsolutePath());
+				if (filePath != null) {
+					browserPath.setText(filePath.getAbsolutePath());
+				}
 			}
 		});
 
