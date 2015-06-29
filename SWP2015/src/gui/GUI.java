@@ -395,6 +395,7 @@ public class GUI extends Application {
 					statusBar.setFill(Color.LIGHTGREY);
 					browserBox.setDisable(true);
 					discardBrowser.setDisable(false);
+					discardBrowserItem.setDisable(false);
 					if (!logicAdded) {
 						statusText.setText("Waiting for Logic");
 						statusBar.setFill(Color.LIGHTGREY);
@@ -417,6 +418,7 @@ public class GUI extends Application {
 						discardBrowser.setDisable(false);
 						browserPath.setDisable(true);
 						chooseBrowser.setDisable(true);
+						discardBrowserItem.setDisable(false);
 						statusBar.setFill(Color.LIGHTGREY);
 						browserChosen = true;
 						if (!logicAdded) {
