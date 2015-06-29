@@ -411,6 +411,7 @@ public class GUI // extends Application
 				if (filePath != null) {
 					browserPath.setText(filePath.getAbsolutePath());
 				}
+				chosenBrowser.setText("Chosen Browser: none");
 			}
 		});
 
@@ -446,6 +447,7 @@ public class GUI // extends Application
 						chosenBrowser.setTextFill(Color.RED);
 						browserPathButton.setDisable(false);
 					} else {
+						browserPathButton.setDisable(true);
 						chrome.setDisable(true);
 						firefox.setDisable(true);
 						explorer.setDisable(true);
