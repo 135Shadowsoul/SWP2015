@@ -712,19 +712,22 @@ public class GUI extends Application {
 	}
 
 	public void startPressed() {
-		if (browserChosen && !logicAdded) {
+		if (!logicAdded) {
 			statusText.setText("Missing Logic!");
 			statusBar.setFill(Color.RED);
-		} else if (!browserChosen && logicAdded) {
-			statusText.setText("Missing Browser!");
-			statusBar.setFill(Color.RED);
-		} else if (!browserChosen && !logicAdded) {
-			statusText.setText("Missing Browser and Logic!");
-			statusBar.setFill(Color.RED);
+//		} else if (!browserChosen && logicAdded) {
+//			statusText.setText("Missing Browser!");
+//			statusBar.setFill(Color.RED);
+//		} else if (!browserChosen && !logicAdded) {
+//			statusText.setText("Missing Browser and Logic!");
+//			statusBar.setFill(Color.RED);
 		} else {
 			discardLogic.setDisable(true);
 			discardBrowser.setDisable(true);
 			startButton.setDisable(true);
+			chooseBrowser.setDisable(true);
+			browserBox.setDisable(true);
+			browserPath.setDisable(true);
 			statusText.setText("Starting...");
 			statusBar.setFill(Color.LIGHTGREY);
 			Log log = new Log("Start running...");
@@ -736,6 +739,10 @@ public class GUI extends Application {
 
 	public void stopPressed() {
 		stop("Stopped by Operator!");
+	}
+	
+	public boolean browserAdded(){
+		return this.browserChosen;
 	}
 
 	private void loadDefault() throws Exception {
