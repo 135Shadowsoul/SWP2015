@@ -99,9 +99,9 @@ public class GUI // extends Application
 	private Menu logicMenu = new Menu("Logic");
 	private Menu help = new Menu("Help");
 
-	private MenuItem save = new MenuItem("Save as Default");
+	private MenuItem save = new MenuItem("Save Config");
 	private MenuItem exit = new MenuItem("Exit We-B-Ot");
-	private MenuItem delete = new MenuItem("Delete default file");
+	private MenuItem delete = new MenuItem("Delete Config file");
 
 	private MenuItem firefox = new MenuItem("FireFox");
 	private MenuItem explorer = new MenuItem("Internet Explorer");
@@ -127,10 +127,6 @@ public class GUI // extends Application
 			public void handle(ActionEvent arg0) {
 				if (!logicAdded && !browserChosen) {
 					statusText.setText("Nothing to save!");
-				} else if (!logicAdded) {
-					statusText.setText("Missing Logic!");
-				} else if (!browserChosen) {
-					statusText.setText("Missing Browser!");
 				} else
 					try {
 						saveDefault();
@@ -257,15 +253,15 @@ public class GUI // extends Application
 				FileChooser fileChooser = new FileChooser();
 				ExtensionFilter filter = new ExtensionFilter("BotLanguage (*.bla)", "*.bla");
 				fileChooser.getExtensionFilters().add(filter);
-				logicFile = fileChooser.showOpenDialog(arg0);
-				if (logicFile != null && logicFile.getName().endsWith(".bla")) {
+				File tempFile = fileChooser.showOpenDialog(arg0);
+				if (tempFile != null && tempFile.getName().endsWith(".bla")) {
 					logicAdded = true;
+					logicFile = tempFile;
 					discardLogic.setDisable(false);
 					chosenLogic.setTextFill(Color.BLACK);
 					chosenLogic.setText("Chosen Logic-file: " + logicFile.getName());
 					chosenLogic.setVisible(true);
 					discardLogicItem.setDisable(false);
-					loadLogicItem.setDisable(true);
 					discardLogic.setDisable(false);
 					if (browserChosen) {
 						statusText.setText("Ready");
@@ -274,12 +270,13 @@ public class GUI // extends Application
 						statusText.setText("Waiting for Browser");
 						statusBar.setFill(Color.LIGHTGREY);
 					}
-					loadLogic.setDisable(true);
 				} else {
-					statusText.setText("Invalid file for Logic! Excepting *.bla!");
-					chosenLogic.setText("Invalid file for Logic! Excepting *.bla!");
-					chosenLogic.setTextFill(Color.RED);
-					chosenLogic.setVisible(true);
+					if (!logicAdded) {
+						statusText.setText("Invalid file for Logic! Excepting *.bla!");
+						chosenLogic.setText("Invalid file for Logic! Excepting *.bla!");
+						chosenLogic.setTextFill(Color.RED);
+						chosenLogic.setVisible(true);
+					}
 				}
 
 			}
@@ -292,11 +289,9 @@ public class GUI // extends Application
 				if (logicFile != null) {
 					logicFile = null;
 					discardLogic.setDisable(true);
-					loadLogic.setDisable(false);
 					logicAdded = false;
 					chosenLogic.setText("Chosen Logic-File: none");
 					chosenLogic.setVisible(false);
-					loadLogicItem.setDisable(false);
 					discardLogicItem.setDisable(true);
 					if (browserChosen)
 						statusText.setText("Waiting for Logic");
@@ -522,14 +517,14 @@ public class GUI // extends Application
 				FileChooser fileChooser = new FileChooser();
 				ExtensionFilter filter = new ExtensionFilter("BotLanguage (*.bla)", "*.bla");
 				fileChooser.getExtensionFilters().add(filter);
-				logicFile = fileChooser.showOpenDialog(arg0);
-				if (logicFile != null && logicFile.getName().endsWith(".bla")) {
+				File tempFile = fileChooser.showOpenDialog(arg0);
+				if (tempFile != null && tempFile.getName().endsWith(".bla")) {
+					logicFile = tempFile;
 					logicAdded = true;
 					discardLogic.setDisable(false);
 					chosenLogic.setTextFill(Color.BLACK);
 					chosenLogic.setText("Chosen Logic-file: " + logicFile.getName());
 					chosenLogic.setVisible(true);
-					loadLogicItem.setDisable(true);
 					if (browserChosen) {
 						statusText.setText("Ready");
 						statusBar.setFill(Color.LIGHTGREY);
@@ -537,12 +532,13 @@ public class GUI // extends Application
 						statusText.setText("Waiting for Browser");
 						statusBar.setFill(Color.LIGHTGREY);
 					}
-					loadLogic.setDisable(true);
 				} else {
-					statusText.setText("Invalid file for Logic! Excepting *.bla!");
-					chosenLogic.setText("Invalid file for Logic! Excepting *.bla!");
-					chosenLogic.setTextFill(Color.RED);
-					chosenLogic.setVisible(true);
+					if (!logicAdded) {
+						statusText.setText("Invalid file for Logic! Excepting *.bla!");
+						chosenLogic.setText("Invalid file for Logic! Excepting *.bla!");
+						chosenLogic.setTextFill(Color.RED);
+						chosenLogic.setVisible(true);
+					}
 				}
 
 			}
@@ -557,7 +553,6 @@ public class GUI // extends Application
 				if (logicFile != null) {
 					logicFile = null;
 					discardLogic.setDisable(true);
-					loadLogic.setDisable(false);
 					logicAdded = false;
 					chosenLogic.setText("Chosen Logic-File: none");
 					chosenLogic.setVisible(false);
@@ -692,7 +687,7 @@ public class GUI // extends Application
 	}
 
 	public void stop(String message) {
-		discardLogic.setDisable(false);
+		chooseLogic.setDisable(false);
 		discardBrowser.setDisable(false);
 		chooseBrowser.setDisable(true);
 		stopButton.setDisable(true);
@@ -775,7 +770,7 @@ public class GUI // extends Application
 			chooseBrowser.setDisable(true);
 			browserBox.setDisable(true);
 			browserPath.setDisable(true);
-			statusText.setText("Starting...");
+			statusText.setText("Running...");
 			statusBar.setFill(Color.LIGHTGREY);
 			Log log = new Log("Start running...");
 			addLog(log);
@@ -808,13 +803,10 @@ public class GUI // extends Application
 			logicFile = file;
 			logicAdded = true;
 			discardLogic.setDisable(false);
-			loadLogic.setDisable(true);
 			chosenLogic.setTextFill(Color.BLACK);
 			chosenLogic.setText("Chosen Logic-file: " + logicFile.getName());
 			chosenLogic.setVisible(true);
-			loadLogicItem.setDisable(true);
 			discardLogic.setDisable(false);
-			loadLogic.setDisable(true);
 			chosenLogic.setTextFill(Color.BLACK);
 			chosenLogic.setText("Chosen Logic-file: " + logicFile.getName());
 			chosenLogic.setVisible(true);
