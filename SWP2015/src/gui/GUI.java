@@ -730,7 +730,7 @@ public class GUI // extends Application
 	}
 
 	public void addLog(Log log) {
-		logList.add(0, log);
+		logList.add(log);
 	}
 
 	public Button startButton() {
