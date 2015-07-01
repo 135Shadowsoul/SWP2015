@@ -798,6 +798,7 @@ public class GUI // extends Application
 			chooseBrowser.fire();
 		}
 		File file = new File(configProps.getProperty("LogicFile"));
+		System.out.println(file.getAbsolutePath());
 		if (file.exists()) {
 			logicFile = file;
 			logicAdded = true;
@@ -823,7 +824,9 @@ public class GUI // extends Application
 			configProps.setProperty("Browser", "");
 			configProps.setProperty("BrowserPath", "");
 		}
-		configProps.setProperty("LogicFile", logicFile.getPath());
+		if (logicAdded) {
+			configProps.setProperty("LogicFile", logicFile.getPath());
+		}
 
 		OutputStream outputStream = new FileOutputStream(configFile);
 		configProps.store(outputStream, "We-B-ot Settings");
