@@ -1,4 +1,4 @@
-package webot.execute_logic;
+package webot.logic;
 
 import java.util.Date;
 import java.util.HashMap;

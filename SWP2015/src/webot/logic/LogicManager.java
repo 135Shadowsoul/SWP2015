@@ -1,10 +1,12 @@
-package webot;
+package webot.logic;
 
 import java.io.File;
+
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import webot.execute_logic.LogicExecutor;
+
+import webot.WeBot;
 import webot.xmi_to_java.BotLanguageLoader;
 import webot.xtext_to_xmi.Converter;
 

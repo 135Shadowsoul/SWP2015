@@ -1,12 +1,15 @@
 package webot;
 
 import java.io.File;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
 import webot.gui.GUI;
-import webot.gui.Log;
 import webot.internet.EMailNotifier;
 import webot.internet.Notifier;
+import webot.logic.InterfaceLogicManager;
+import webot.logic.LogicManager;
+import webot.logs.Log;
  
 
 public class WeBot extends Application

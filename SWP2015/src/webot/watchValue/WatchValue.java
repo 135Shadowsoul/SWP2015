@@ -1,4 +1,4 @@
-package webot.gui;
+package webot.watchValue;
 
 import javafx.beans.property.SimpleStringProperty;
 

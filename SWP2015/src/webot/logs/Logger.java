@@ -1,4 +1,4 @@
-package webot.gui;
+package webot.logs;
 
 import java.util.ArrayList;
 
@@ -25,7 +25,7 @@ public class Logger {
 	}
 	
 	/**
-	 * Fügt der Log-Liste einen Eintrag hinzu
+	 * Fï¿½gt der Log-Liste einen Eintrag hinzu
 	 * 
 	 * @param action
 	 */

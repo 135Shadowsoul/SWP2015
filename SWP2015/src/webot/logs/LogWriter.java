@@ -1,4 +1,4 @@
-package webot.gui;
+package webot.logs;
 
 
 import java.io.File;

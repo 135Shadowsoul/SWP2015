@@ -1,11 +1,13 @@
-package webot.execute_logic;
+package webot.logic;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeoutException;
+
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
+
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.openqa.selenium.NoSuchElementException;
@@ -25,9 +27,10 @@ import org.xtext.bot.language.bla.impl.VarImpl;
 import org.xtext.bot.language.bla.impl.WaitImpl;
 import org.xtext.bot.language.bla.impl.WriteImpl;
 import org.xtext.bot.language.bla.impl.AddressImpl;
+
 import webot.WeBot;
-import webot.gui.Log;
-import webot.gui.Logger;
+import webot.logs.Log;
+import webot.logs.Logger;
 
 /**
  * 
@@ -314,7 +317,7 @@ public class LogicExecutor
 
 			// TODO werte auslesen und dann vergleichen
 			/*
-			 * 1. Abfragen, was in left und right ist und ggf. ausführen 
+			 * 1. Abfragen, was in left und right ist und ggf. ausfï¿½hren 
 			 * 2. Type-Test
 			 * 3. Testen
 			 */

@@ -1,4 +1,4 @@
-package webot;
+package webot.logic;
 
 import java.io.File;
 

@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Properties;
 
 import webot.WeBot;
-import webot.gui.Log;
-import webot.gui.WatchValue;
+import webot.logs.Log;
+import webot.watchValue.WatchValue;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -34,7 +34,6 @@ import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.RectangleBuilder;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -42,8 +41,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-public class GUI // extends Application
-{
+public class GUI {
 
 	private File configFile = new File(System.getProperty("user.home") + System.getProperty("file.separator") + "Bot.conf");
 	private Properties configProps = new Properties();
@@ -111,21 +109,18 @@ public class GUI // extends Application
 
 	MenuItem about = new MenuItem("About");
 
-
-	//logic fields 
+	// logic fields
 	private WeBot bot;
-	
+
 	/**
 	 * Constructor with given WeBot bot.
 	 * 
 	 * @param bot
 	 */
-	public GUI(WeBot bot) 
-	{
+	public GUI(WeBot bot) {
 		this.bot = bot;
 	}
-	
-	
+
 	/**
 	 * 
 	 * @param arg0
@@ -140,7 +135,7 @@ public class GUI // extends Application
 		menu.getItems().addAll(save, delete, new SeparatorMenuItem(), exit);
 
 		save.setOnAction(new EventHandler<ActionEvent>() {
-			 
+
 			public void handle(ActionEvent arg0) {
 				if (!logicAdded && !browserChosen) {
 					statusText.setText("Nothing to save!");
@@ -160,7 +155,7 @@ public class GUI // extends Application
 		}
 
 		delete.setOnAction(new EventHandler<ActionEvent>() {
-			 
+
 			public void handle(ActionEvent arg0) {
 				configFile.delete();
 				delete.setDisable(true);
@@ -169,7 +164,7 @@ public class GUI // extends Application
 		});
 
 		exit.setOnAction(new EventHandler<ActionEvent>() {
-			 
+
 			public void handle(ActionEvent arg0) {
 				stage.close();
 			}
@@ -178,7 +173,7 @@ public class GUI // extends Application
 		discardBrowserItem.setDisable(true);
 
 		firefox.setOnAction(new EventHandler<ActionEvent>() {
-			 
+
 			public void handle(ActionEvent arg0) {
 				browserPath.setPromptText("No Browser Path needed");
 				browserPath.setDisable(true);
@@ -206,7 +201,7 @@ public class GUI // extends Application
 			}
 		});
 		explorer.setOnAction(new EventHandler<ActionEvent>() {
-			 
+
 			public void handle(ActionEvent arg0) {
 				discardBrowserItem.setDisable(false);
 				browserBox.setValue("Internet Explorer");
@@ -222,7 +217,7 @@ public class GUI // extends Application
 			}
 		});
 		chrome.setOnAction(new EventHandler<ActionEvent>() {
-			 
+
 			public void handle(ActionEvent arg0) {
 				discardBrowserItem.setDisable(false);
 				browserBox.setValue("Chrome");
@@ -238,7 +233,7 @@ public class GUI // extends Application
 			}
 		});
 		discardBrowserItem.setOnAction(new EventHandler<ActionEvent>() {
-			 
+
 			public void handle(ActionEvent arg0) {
 				browserMenu.setDisable(false);
 				chosenBrowser.setText("Chosen Browser: none");
@@ -265,7 +260,7 @@ public class GUI // extends Application
 		browserMenu.getItems().addAll(firefox, explorer, chrome, new SeparatorMenuItem(), discardBrowserItem);
 
 		loadLogicItem.setOnAction(new EventHandler<ActionEvent>() {
-			 
+
 			public void handle(final ActionEvent e) {
 				FileChooser fileChooser = new FileChooser();
 				ExtensionFilter filter = new ExtensionFilter("BotLanguage (*.bla)", "*.bla");
@@ -274,9 +269,9 @@ public class GUI // extends Application
 				if (tempFile != null && tempFile.getName().endsWith(".bla")) {
 					logicAdded = true;
 					logicFile = tempFile;
-					
+
 					bot.logicChosen(logicFile);
-					
+
 					discardLogic.setDisable(false);
 					chosenLogic.setTextFill(Color.BLACK);
 					chosenLogic.setText("Chosen Logic-file: " + logicFile.getName());
@@ -304,13 +299,13 @@ public class GUI // extends Application
 
 		discardLogicItem.setDisable(true);
 		discardLogicItem.setOnAction(new EventHandler<ActionEvent>() {
-			 
+
 			public void handle(final ActionEvent e) {
 				if (logicFile != null) {
 					logicFile = null;
-					
+
 					bot.logicDiscarted();
-					
+
 					discardLogic.setDisable(true);
 					logicAdded = false;
 					chosenLogic.setText("Chosen Logic-File: none");
@@ -326,7 +321,7 @@ public class GUI // extends Application
 		logicMenu.getItems().addAll(loadLogicItem, discardLogicItem);
 
 		about.setOnAction(new EventHandler<ActionEvent>() {
-			 
+
 			public void handle(ActionEvent event) {
 				final Stage dialog = new Stage();
 				dialog.initModality(Modality.APPLICATION_MODAL);
@@ -334,7 +329,7 @@ public class GUI // extends Application
 				Button ok = new Button("OK");
 				ok.setMinWidth(100);
 				ok.setOnAction(new EventHandler<ActionEvent>() {
-					 
+
 					public void handle(ActionEvent event) {
 						dialog.close();
 					}
@@ -385,7 +380,7 @@ public class GUI // extends Application
 		browserPath.setPromptText("No Browser Path needed");
 		browserPath.setDisable(true);
 		browserBox.setOnAction(new EventHandler<ActionEvent>() {
-			 
+
 			public void handle(ActionEvent arg0) {
 				String browser = browserBox.getValue();
 				if (browser.equals("FireFox")) {
@@ -419,7 +414,7 @@ public class GUI // extends Application
 		browserPathButton.setLayoutY(55);
 		browserPathButton.setDisable(true);
 		browserPathButton.setOnAction(new EventHandler<ActionEvent>() {
-			 
+
 			public void handle(final ActionEvent e) {
 				FileChooser fileChooser = new FileChooser();
 				ExtensionFilter filter = new ExtensionFilter("*driver.exe (*.exe)", "*.exe");
@@ -435,7 +430,7 @@ public class GUI // extends Application
 		chooseBrowser.setLayoutX(10);
 		chooseBrowser.setLayoutY(85);
 		chooseBrowser.setOnAction(new EventHandler<ActionEvent>() {
-			 
+
 			public void handle(final ActionEvent e) {
 				if (browserBox.getValue().equals("FireFox")) {
 					chrome.setDisable(true);
@@ -494,7 +489,7 @@ public class GUI // extends Application
 		discardBrowser.setLayoutY(85);
 		discardBrowser.setDisable(true);
 		discardBrowser.setOnAction(new EventHandler<ActionEvent>() {
-			 
+
 			public void handle(ActionEvent arg0) {
 				if (!browserBox.getValue().equals("FireFox")) {
 					browserPath.setPromptText("Enter Browser Path");
@@ -534,7 +529,7 @@ public class GUI // extends Application
 		loadLogic.setLayoutX(390);
 		loadLogic.setLayoutY(55);
 		loadLogic.setOnAction(new EventHandler<ActionEvent>() {
-			 
+
 			public void handle(final ActionEvent e) {
 				FileChooser fileChooser = new FileChooser();
 				ExtensionFilter filter = new ExtensionFilter("BotLanguage (*.bla)", "*.bla");
@@ -542,9 +537,9 @@ public class GUI // extends Application
 				File tempFile = fileChooser.showOpenDialog(arg0);
 				if (tempFile != null && tempFile.getName().endsWith(".bla")) {
 					logicFile = tempFile;
-					
+
 					bot.logicChosen(logicFile);
-					
+
 					logicAdded = true;
 					discardLogic.setDisable(false);
 					chosenLogic.setTextFill(Color.BLACK);
@@ -573,13 +568,13 @@ public class GUI // extends Application
 		discardLogic.setLayoutY(55);
 		discardLogic.setDisable(true);
 		discardLogic.setOnAction(new EventHandler<ActionEvent>() {
-			 
+
 			public void handle(final ActionEvent e) {
 				if (logicFile != null) {
 					logicFile = null;
-					
+
 					bot.logicDiscarted();
-					
+
 					discardLogic.setDisable(true);
 					logicAdded = false;
 					chosenLogic.setText("Chosen Logic-File: none");
@@ -602,7 +597,7 @@ public class GUI // extends Application
 		startButton.setLayoutY(150);
 		startButton.setMinSize(100, 50);
 		startButton.setOnAction(new EventHandler<ActionEvent>() {
-			 
+
 			public void handle(ActionEvent arg0) {
 				startPressed();
 				bot.startPlaying();
@@ -614,7 +609,7 @@ public class GUI // extends Application
 		stopButton.setMinSize(100, 50);
 		stopButton.setDisable(true);
 		stopButton.setOnAction(new EventHandler<ActionEvent>() {
-			 
+
 			public void handle(ActionEvent arg0) {
 				bot.stopPlaying();
 				stopPressed();
