@@ -798,7 +798,6 @@ public class GUI // extends Application
 			chooseBrowser.fire();
 		}
 		File file = new File(configProps.getProperty("LogicFile"));
-		System.out.println(file.getAbsolutePath());
 		if (file.exists()) {
 			logicFile = file;
 			logicAdded = true;
