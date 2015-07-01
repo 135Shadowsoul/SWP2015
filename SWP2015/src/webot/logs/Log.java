@@ -3,7 +3,6 @@ package webot.logs;
 import java.text.SimpleDateFormat;
 
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 
 
 
