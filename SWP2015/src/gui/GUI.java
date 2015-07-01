@@ -291,13 +291,12 @@ public class GUI // extends Application
 					discardLogic.setDisable(true);
 					logicAdded = false;
 					chosenLogic.setText("Chosen Logic-File: none");
-					chosenLogic.setVisible(false);
 					discardLogicItem.setDisable(true);
 					if (browserChosen)
 						statusText.setText("Waiting for Logic");
 					else
 						statusText.setText("Waiting for Input");
-				} else
+				} else if (!logicAdded)
 					discardLogic.setDisable(true);
 			}
 		});
@@ -555,7 +554,6 @@ public class GUI // extends Application
 					discardLogic.setDisable(true);
 					logicAdded = false;
 					chosenLogic.setText("Chosen Logic-File: none");
-					chosenLogic.setVisible(false);
 					discardLogic.setDisable(true);
 					discardLogicItem.setDisable(true);
 					discardLogicItem.setDisable(false);
@@ -563,7 +561,7 @@ public class GUI // extends Application
 						statusText.setText("Waiting for Logic");
 					else
 						statusText.setText("Waiting for Input");
-				} else
+				} else if (!logicAdded)
 					discardLogic.setDisable(true);
 			}
 		});
@@ -693,6 +691,9 @@ public class GUI // extends Application
 		stopButton.setDisable(true);
 		startButton.setDisable(false);
 		discardLogicItem.setDisable(false);
+		loadLogic.setDisable(false);
+		loadLogicItem.setDisable(false);
+		discardLogic.setDisable(false);
 		statusText.setText(message);
 		Log log = new Log(message);
 		addLog(log);
@@ -757,12 +758,6 @@ public class GUI // extends Application
 		if (!logicAdded) {
 			statusText.setText("Missing Logic!");
 			statusBar.setFill(Color.RED);
-			// } else if (!browserChosen && logicAdded) {
-			// statusText.setText("Missing Browser!");
-			// statusBar.setFill(Color.RED);
-			// } else if (!browserChosen && !logicAdded) {
-			// statusText.setText("Missing Browser and Logic!");
-			// statusBar.setFill(Color.RED);
 		} else {
 			discardLogic.setDisable(true);
 			discardBrowser.setDisable(true);
@@ -770,6 +765,8 @@ public class GUI // extends Application
 			chooseBrowser.setDisable(true);
 			browserBox.setDisable(true);
 			browserPath.setDisable(true);
+			loadLogic.setDisable(true);
+			loadLogicItem.setDisable(true);
 			statusText.setText("Running...");
 			statusBar.setFill(Color.LIGHTGREY);
 			Log log = new Log("Start running...");
@@ -795,9 +792,11 @@ public class GUI // extends Application
 		inputStream.close();
 
 		// setting up loaded props
-		browserBox.setValue(configProps.getProperty("Browser"));
-		browserPath.setText(configProps.getProperty("BrowserPath"));
-		chooseBrowser.fire();
+		if (!configProps.getProperty("Browser").equals("")) {
+			browserBox.setValue(configProps.getProperty("Browser"));
+			browserPath.setText(configProps.getProperty("BrowserPath"));
+			chooseBrowser.fire();
+		}
 		File file = new File(configProps.getProperty("LogicFile"));
 		if (file.exists()) {
 			logicFile = file;
@@ -805,24 +804,25 @@ public class GUI // extends Application
 			discardLogic.setDisable(false);
 			chosenLogic.setTextFill(Color.BLACK);
 			chosenLogic.setText("Chosen Logic-file: " + logicFile.getName());
-			chosenLogic.setVisible(true);
 			discardLogic.setDisable(false);
-			chosenLogic.setTextFill(Color.BLACK);
-			chosenLogic.setText("Chosen Logic-file: " + logicFile.getName());
-			chosenLogic.setVisible(true);
 			discardLogicItem.setDisable(false);
 		} else {
 			statusText.setText("Error occured while loading logic");
 		}
 		discardBrowserItem.setDisable(false);
-		statusText.setText("Loaded Default... Read to start");
+		statusText.setText("Loaded default Settings");
 
 	}
 
 	private void saveDefault() throws IOException {
 
-		configProps.setProperty("Browser", browserBox.getValue());
-		configProps.setProperty("BrowserPath", browserPath.getText());
+		if (browserChosen) {
+			configProps.setProperty("Browser", browserBox.getValue());
+			configProps.setProperty("BrowserPath", browserPath.getText());
+		} else {
+			configProps.setProperty("Browser", "");
+			configProps.setProperty("BrowserPath", "");
+		}
 		configProps.setProperty("LogicFile", logicFile.getPath());
 
 		OutputStream outputStream = new FileOutputStream(configFile);
