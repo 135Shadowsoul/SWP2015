@@ -88,7 +88,7 @@ public class GUI {
 	private Separator under_buttons = new Separator();
 	private Separator top_Log = new Separator();
 
-	private Rectangle statusBar;
+	private Rectangle statusBar = new Rectangle();
 
 	private Menu menu = new Menu("Menu");
 	private Menu browserMenu = new Menu("Browser");
