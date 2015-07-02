@@ -130,7 +130,12 @@ public class GUI {
 		final Stage stage = new Stage();
 		Pane pane = new Pane();
 
-		statusBar = RectangleBuilder.create().width(600).height(30).x(0).y(545).fill(Color.LIGHTGREY).stroke(Color.DIMGREY).build();
+		statusBar.setWidth(600);
+		statusBar.setHeight(30);
+		statusBar.setLayoutX(0);
+		statusBar.setLayoutY(545);
+		statusBar.setFill(Color.LIGHTGREY);
+		statusBar.setStroke(Color.DIMGREY);
 
 		menu.getItems().addAll(save, delete, new SeparatorMenuItem(), exit);
 
