@@ -335,7 +335,7 @@ public class GUI {
 					}
 				});
 				Label thanks = new Label("Thanks for using We-B-Ot!");
-				Label copyright = new Label("\u00a9 Andreas Knapp, Stefan Off, Julian Tritschner");
+				Label copyright = new Label("\u00a9 Andreas Knapp, Stefan Off, Julian Tritscher");
 				Label warning = new Label("Warning: Most Games banish player using bots!");
 				Label warning2 = new Label("Use at your own risk!");
 				Pane pane = new Pane();
