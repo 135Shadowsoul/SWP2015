@@ -1,6 +1,7 @@
 package webot;
 
 import java.io.File;
+import java.util.List;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -10,6 +11,7 @@ import webot.internet.Notifier;
 import webot.logic.InterfaceLogicManager;
 import webot.logic.LogicManager;
 import webot.logs.Log;
+import webot.watchValue.WatchValue;
  
 
 public class WeBot extends Application
@@ -29,7 +31,18 @@ public class WeBot extends Application
 	
 	
 	/**
-	 * Starting/lauchning the GUI
+	 * Setting the values of the user wanted to show in the gui.
+	 * 
+	 * @param watchValues
+	 */
+	public void setWatchValues(List<WatchValue> watchValues) 
+	{
+		gui.setWatchValues(watchValues);
+	}
+
+
+	/**
+	 * Lauchning the GUI
 	 * 
 	 * @param args
 	 */
@@ -39,21 +52,9 @@ public class WeBot extends Application
 	}
 	
 
-	
-	/**
-	 * 
-	 * @param errorMessage
-	 */
-	public void handleExceptions(String errorMessage)
-	{
-		System.out.println(errorMessage);
-//		gui.writeToStatusArea("Error: " + errorMessage + "\n");
-		//TODO anpassen
-	}
-
 
 	/**
-	 * Launch the Gui
+	 * Starts the Gui
 	 */
 	@Override
 	public void start(Stage arg0) throws Exception 
@@ -65,6 +66,7 @@ public class WeBot extends Application
 	
 	/**
 	 * Invoke all nececcary methods to execute the script
+	 * 
 	 */
 	public void startPlaying()
 	{		

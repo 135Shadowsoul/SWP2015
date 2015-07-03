@@ -16,7 +16,7 @@ public final class Log
 	SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy hh:mm:ss");
 
 	/**
-	 * Konstruktor fï¿½r Log. Erstellt mit ï¿½bergebenem Text und hï¿½ngt Zeitstempel
+	 * Konstruktor für Log. Erstellt mit Übergebenem Text und hängt Zeitstempel
 	 * dran
 	 * 
 	 * @param text

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+
 public class LogWriter
 {
 
@@ -14,7 +15,7 @@ public class LogWriter
 	SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 
 	/**
-	 * Konstruktor ohne Werte
+	 * Constructor
 	 */
 	public LogWriter() 
 	{
@@ -22,7 +23,7 @@ public class LogWriter
 	}
 
 	/**
-	 * Schreibt ein Log in eine Datei
+	 * Writen the log datafile
 	 * 
 	 * @param log
 	 */
@@ -36,6 +37,7 @@ public class LogWriter
 		try 
 		{
 			FileWriter writer = new FileWriter(file, true);
+			
 			writer.write(log.toString());
 			writer.write(LINE_SEPARATOR);
 			writer.flush();
@@ -50,13 +52,14 @@ public class LogWriter
 
 	
 	/**
-	 * Schreibt komplette Logfile, z.B. am Ende
+	 * Writing the complete Log-File (e.g. at the end)
 	 * 
 	 * @param logs
 	 */
 	public void writeLog(ArrayList<Log> logs) 
 	{
-		for (Log log : logs) {
+		for (Log log : logs)
+		{
 			writeLog(log);
 		}
 	}

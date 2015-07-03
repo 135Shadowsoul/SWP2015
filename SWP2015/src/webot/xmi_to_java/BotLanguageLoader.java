@@ -16,13 +16,19 @@ import org.xtext.bot.language.bla.impl.BotLanguageImpl;
 public class BotLanguageLoader
 {
 	
-  public static void main(final String[] args) 
-  {
-    BotLanguageLoader _botLanguageLoader = new BotLanguageLoader();
-//    _botLanguageLoader.loadBotLanguage();
-  }
+//  public static void main(final String[] args) 
+//  {
+//    BotLanguageLoader _botLanguageLoader = new BotLanguageLoader();
+////    _botLanguageLoader.loadBotLanguage();
+//  }
   
   
+	/**
+	 * Load the xmi file into the EList
+	 * 
+	 * @param xmiFile : Delivered String xmiFile from the Converter
+	 * @return : Returns an EList over EObjects -- Used to parse out the user input
+	 */
   public EList<EObject> loadBotLanguage(String xmiFile)
   {
     try 

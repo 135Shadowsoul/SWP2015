@@ -2,11 +2,15 @@ package webot.logic;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.eclipse.emf.common.util.EList;
 import org.openqa.selenium.NoSuchElementException;
 
@@ -14,6 +18,7 @@ import webot.internet.EMailNotifier;
 import webot.internet.InterfaceHTMLParser;
 import webot.internet.Notifier;
 import webot.internet.SeleniumParser;
+import webot.watchValue.WatchValue;
 
 /**
  * 
@@ -79,10 +84,11 @@ public class GameLogic
 
 		if(address != null)
 		{
+			
 			notifier.notify(address, subject, message);
 			return "Notification sent!";
 		}
-		
+
 		return message;
 	}
 
@@ -204,18 +210,156 @@ public class GameLogic
 
 
 	/**
+	 * Shows statistic values or values that should be observed
 	 * 
 	 * @param names
 	 * @param values
+	 * @throws TimeoutException 
+	 * @throws NoSuchElementException 
 	 */
-	public void showStatistc(EList<String> names, EList<String> values) 
+	public List<WatchValue> showStatistc(EList<String> names, EList<String> values) throws NoSuchElementException, TimeoutException 
 	{
-		// TODO signalize Stats to Gui		
+		List<WatchValue> list = new LinkedList<WatchValue>();
+		
+		for (int i = 0; i < values.size(); i++) 
+		{
+			String stringValue = this.read(values.get(i));
+			String stringName = names.get(i);
+			
+			list.add(new WatchValue(stringName, stringValue));
+		}
+		
+		
+		return list ;	
+	}
+
+
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public String readVariable(String name)
+	{
+		return variables.get(name);
 	}
 
 
 
+	public boolean rateIf(String left, String right, String operant) {
+		
+		if (operant.equals("==") || operant.equals("="))
+		{
+			return identical(left, right);
+		}
+		
+		if (operant.equals("!="))
+		{
+			return !identical(left, right);
+		}
+		
+		if (operant.equals("<"))
+		{
+			return lowerThan(left, right);
+		}
+		
+		if (operant.equals("<="))
+		{
+			return lowerThan(left, right) || identical(left, right);
+		}
+		
+		if (operant.equals(">="))
+		{
+			return lowerThan(right, left) || identical(left, right);
+		}
+		
+		if (operant.equals(">"))
+		{
+			return lowerThan(right, left);
+		}
+		
+		return false;
+	}
 
 
 
+	/**
+	 * Decide if teh left String is equals or identical the right String
+	 * 
+	 * @param left
+	 * @param right
+	 * @return
+	 */
+	private boolean identical(String left, String right) 
+	{
+		if(left.equals(right))
+		{
+			return true;
+		}
+		
+		double leftNum = 0;
+		double rightNum = 0;
+		
+		try
+		{
+			leftNum = findNumeric(left);
+			rightNum = findNumeric(right);			
+		}
+		catch (NumberFormatException e)
+		{
+			return false;
+		}
+		
+		return leftNum == rightNum;
+	}
+
+
+
+	/**
+	 * Compares whether the numbers given within left is lower than the numbers given within right
+	 * 
+	 * @param leftString
+	 * @param rightString
+	 * @return
+	 * @throws NumberFormatException
+	 */
+	private boolean lowerThan(String leftString, String rightString) throws NumberFormatException
+	{
+		double left = 0;
+		double right = 0 ;
+		
+		left = findNumeric(leftString);
+		right = findNumeric(rightString);
+		
+		return left < right;
+	}
+
+
+
+	private static double findNumeric(String dirtyValue) throws NumberFormatException
+	{
+		String cleanValue = "";
+		
+		for(int i = 0; i < dirtyValue.length(); i++)
+		{
+			String lookAt = dirtyValue.substring(i, i + 1);
+			
+			if(NumberUtils.isNumber(lookAt))
+			{
+				cleanValue += dirtyValue.substring(i, i + 1);
+			}
+			
+			if(dirtyValue.substring(i, i + 1).equals(".") || dirtyValue.substring(i, i + 1).equals(","))
+			{
+				if(!(cleanValue.isEmpty()) && !(cleanValue.contains(".")))
+				{
+					cleanValue += ".";					
+				}
+			}
+		}
+		
+		return Double.parseDouble(cleanValue);
+	}
+	
+	
 }

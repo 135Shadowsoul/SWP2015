@@ -18,38 +18,46 @@ import com.google.inject.Injector;
  */
 public class Converter 
 {
-	
-//	public static void main(final String[] args)
-//	{
-//		Converter converter = new Converter();
-//		converter.convert_to_xmi("./blabla.bla", "./d_blabla.xmi");
-//		System.out.println("Done!");
-//	
-//	}
-	
-	
-
-	public void convert_to_xmi(final String dnitxtFile, final String xmiFile) {
+	/**
+	 * Given Converter!
+	 * 
+	 * @param dnitxtFile
+	 * @param xmiFile
+	 */
+	public void convert_to_xmi(final String dnitxtFile, final String xmiFile) 
+	{
 		BlaStandaloneSetupGenerated _blaStandaloneSetupGenerated = new BlaStandaloneSetupGenerated();
 		final Injector injector = _blaStandaloneSetupGenerated.createInjectorAndDoEMFRegistration();
 		BlaPackageImpl.init();
+		
 		final XtextResourceSet resourceSet = injector.<XtextResourceSet>getInstance(XtextResourceSet.class);
 		final URI uri = URI.createURI(dnitxtFile);
 		final Resource xtextResource = resourceSet.getResource(uri, true);
+		
 		EcoreUtil.resolveAll(xtextResource);
+		
 		URI _createURI = URI.createURI(xmiFile);
 		final Resource xmiResource = resourceSet.createResource(_createURI);
+		
 		EList<EObject> _contents = xmiResource.getContents();
 		EList<EObject> _contents_1 = xtextResource.getContents();
+		
 		EObject _get = _contents_1.get(0);
 		_contents.add(_get);
-		try {
+		
+		try
+		{
 			xmiResource.save(null);
-		} catch (final Throwable _t) {
-			if (_t instanceof IOException) {
+		} 
+		catch (final Throwable _t) 
+		{
+			if (_t instanceof IOException) 
+			{
 				final IOException e = (IOException)_t;
 				e.printStackTrace();
-			} else {
+			} 
+			else 
+			{
 				throw Exceptions.sneakyThrow(_t);
 			}
 		}
