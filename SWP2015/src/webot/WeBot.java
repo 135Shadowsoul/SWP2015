@@ -6,8 +6,6 @@ import java.util.List;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import webot.gui.GUI;
-import webot.internet.EMailNotifier;
-import webot.internet.Notifier;
 import webot.logic.InterfaceLogicManager;
 import webot.logic.LogicManager;
 import webot.logs.Log;
@@ -15,7 +13,6 @@ import webot.watchValue.WatchValue;
 
 public class WeBot extends Application {
 	private InterfaceLogicManager ilm;
-	private Notifier notifier;
 	private GUI gui;
 
 	/**
@@ -23,7 +20,6 @@ public class WeBot extends Application {
 	 */
 	public WeBot() {
 		this.ilm = new LogicManager(this);
-		this.notifier = new EMailNotifier();
 	}
 
 	/**

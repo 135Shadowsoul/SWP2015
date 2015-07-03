@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="/org.xtext.bot.language.bla"/>
 	<classpathentry kind="lib" path="C:/Program Files/Java/javax.mail.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/Java/jfxrt.jar"/>
@@ -56,5 +55,6 @@
 	<classpathentry kind="lib" path="C:/Users/Andreas/Desktop/Java-Eclipse/plugins/specialXtext/org.eclipse.emf.ecore_2.10.2.v20150123-0348.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Andreas/Desktop/Java-Eclipse/plugins/specialXtext/org.eclipse.xtext.xbase.lib_2.8.2.v201504100559.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Andreas/Desktop/Java-Eclipse/plugins/specialXtext/org.eclipse.xtext_2.8.2.v201504100559.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
