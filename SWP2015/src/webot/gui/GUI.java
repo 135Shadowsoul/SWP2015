@@ -701,10 +701,6 @@ public class GUI {
 
 	}
 
-	// public static void main(String[] args) {
-	// launch(args);
-	// }
-
 	public void setStatus(String message) {
 		statusText.setText(message);
 	}
