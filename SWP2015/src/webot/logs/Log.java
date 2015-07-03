@@ -4,10 +4,7 @@ import java.text.SimpleDateFormat;
 
 import javafx.beans.property.SimpleStringProperty;
 
-
-
-public final class Log
-{	
+public final class Log {
 	private final String text;
 	private final String time;
 	private final SimpleStringProperty textProperty;
@@ -16,16 +13,15 @@ public final class Log
 	SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy hh:mm:ss");
 
 	/**
-	 * Konstruktor für Log. Erstellt mit Übergebenem Text und hängt Zeitstempel
+	 * Konstruktor fï¿½r Log. Erstellt mit ï¿½bergebenem Text und hï¿½ngt Zeitstempel
 	 * dran
 	 * 
 	 * @param text
 	 */
-	public Log(final String text)
-	{
+	public Log(final String text) {
 		this.text = text;
 		this.time = sdf.format(System.currentTimeMillis());
-		
+
 		this.textProperty = new SimpleStringProperty(text);
 		this.dateProperty = new SimpleStringProperty(time);
 	}
@@ -33,17 +29,15 @@ public final class Log
 	/**
 	 * @return String des Logs im Format 01.01.2000 13:30, Login erfolgreich
 	 */
-	public String toString() 
-	{
+	public String toString() {
 		return time + ", " + text;
 	}
-	
-	public SimpleStringProperty getTextProperty()
-	{
+
+	public SimpleStringProperty getTextProperty() {
 		return this.textProperty;
 	}
-	
-	public SimpleStringProperty getDateProperty(){
+
+	public SimpleStringProperty getDateProperty() {
 		return this.dateProperty;
-	}	
+	}
 }

@@ -14,70 +14,49 @@ import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 import com.google.common.base.Function;
 
-
-public class SeleniumParser implements InterfaceHTMLParser
-{
+public class SeleniumParser implements InterfaceHTMLParser {
 
 	WebDriver driver;
 	private boolean closeable;
 
-
-
-
 	/**
 	 * Constructor
 	 */
-	public SeleniumParser()
-	{
+	public SeleniumParser() {
 		closeable = true;
 	}
-
 
 	/**
 	 * Method to decide the cloasable of a Browser
 	 */
-	public boolean isCloseable() 
-	{
+	public boolean isCloseable() {
 		return closeable;
 	}
-
 
 	/**
 	 * Sets the Closeable boolean
 	 */
-	public void setCloseable(boolean closeable) 
-	{
+	public void setCloseable(boolean closeable) {
 		this.closeable = closeable;
 	}
-
 
 	/**
 	 * Open the browser
 	 */
-	public void openBrowser()
-	{
-		//TODO handle browsers
+	public void openBrowser() {
+		// TODO handle browsers
 
-		try
-		{
+		try {
 			System.setProperty("webdriver.chrome.driver", "F:/Program Files/chromedriver/chromedriver.exe");
 			this.driver = new ChromeDriver();
-		} 
-		catch(Exception e) 
-		{
-			try
-			{
+		} catch (Exception e) {
+			try {
 				System.setProperty("webdriver.ie.driver", "F:/Program Files/IEDriver/IEDriverServer.exe");
 				this.driver = new InternetExplorerDriver();
-			} 
-			catch(Exception f) 
-			{
-				try
-				{
+			} catch (Exception f) {
+				try {
 					this.driver = new FirefoxDriver();
-				} 
-				catch(Exception g) 
-				{ 
+				} catch (Exception g) {
 
 				}
 
@@ -86,121 +65,94 @@ public class SeleniumParser implements InterfaceHTMLParser
 		}
 	}
 
-
-
 	/**
 	 * Connect to the delivered url
 	 */
-	public void connect(String url)
-	{
+	public void connect(String url) {
 		driver.navigate().to(url);
 	}
 
-
 	/**
-	 * FluentWait for the time out of the browser.
-	 * Timed Out after 30 seconds
+	 * FluentWait for the time out of the browser. Timed Out after 30 seconds
 	 * Polling every 5 seconds
 	 * 
 	 * @param locator
 	 * @return : WebElement
 	 */
-	public WebElement fluentWait(final By locator) throws NoSuchElementException, TimeoutException
-	{
-		Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
-				.withTimeout(30, TimeUnit.SECONDS)
-				.pollingEvery(5, TimeUnit.SECONDS);
-		//				.ignoring(NoSuchElementException.class);
+	public WebElement fluentWait(final By locator) throws NoSuchElementException, TimeoutException {
+		Wait<WebDriver> wait = new FluentWait<WebDriver>(driver).withTimeout(30, TimeUnit.SECONDS).pollingEvery(5, TimeUnit.SECONDS);
+		// .ignoring(NoSuchElementException.class);
 
-		WebElement foo = wait.until(new Function<WebDriver, WebElement>() 
-				{
-			public WebElement apply(WebDriver driver) 
-			{
+		WebElement foo = wait.until(new Function<WebDriver, WebElement>() {
+			public WebElement apply(WebDriver driver) {
 				WebElement foundElement = driver.findElement(locator);
 				return foundElement;
 			}
-				});
+		});
 
-		return  foo;
+		return foo;
 	};
-
 
 	/**
 	 * Write the text to the specific delivered xpath
 	 * 
-	 * @throws TimeoutException 
-	 * @throws NoSuchElementException 
+	 * @throws TimeoutException
+	 * @throws NoSuchElementException
 	 * 
 	 */
-	public void enterText(String xpath, String input) throws NoSuchElementException 
-	{
-		try
-		{
+	public void enterText(String xpath, String input) throws NoSuchElementException {
+		try {
 			WebElement textBox = fluentWait(By.xpath(xpath));
 			textBox.sendKeys(input);
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			throw new NoSuchElementException("ERROR: Element not found at write to: " + xpath);
 		}
 	}
 
-
 	/**
 	 * Execute a click at the delivered xpath
 	 * 
-	 * @throws TimeoutException 
-	 * @throws NoSuchElementException 
+	 * @throws TimeoutException
+	 * @throws NoSuchElementException
 	 * 
 	 */
-	public void clickButton(String xpath) throws  NoSuchElementException
-	{
-		
-		try
-		{
+	public void clickButton(String xpath) throws NoSuchElementException {
+
+		try {
 			WebElement button = fluentWait(By.xpath(xpath));
 			button.click();
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			throw new NoSuchElementException("ERROR: Element not found at click " + xpath);
 		}
 
-		
 	}
-
 
 	/**
 	 * Read out the value of the delivered xpath
 	 * 
-	 * @param xpath : Path to read at
+	 * @param xpath
+	 *            : Path to read at
 	 * 
 	 * @return String
 	 * 
 	 * @throws NoSuchElementException
 	 * @throws TimeoutException
 	 */
-	public String getText(String xpath) throws NoSuchElementException, TimeoutException
-	{
+	public String getText(String xpath) throws NoSuchElementException, TimeoutException {
 		String out = "";
-		try{
+		try {
 			out = fluentWait(By.xpath(xpath)).getText();
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			throw new NoSuchElementException("ERROR: Element not found at read " + xpath);
 		}
 		return out;
 	}
 
-
 	/**
 	 * Close the browser
 	 */
-	public void closeBrowser()
-	{
-		if(closeable)
-		{
+	public void closeBrowser() {
+		if (closeable) {
 			driver.close();
 		}
 	}

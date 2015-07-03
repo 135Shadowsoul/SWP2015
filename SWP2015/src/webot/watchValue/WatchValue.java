@@ -2,34 +2,29 @@ package webot.watchValue;
 
 import javafx.beans.property.SimpleStringProperty;
 
-public class WatchValue 
-{
+public class WatchValue {
+
 	private String value;
 	private String name;
 
-	public WatchValue(String name, String value)
-	{
-		this.name=name;
-		this.value=value;
+	public WatchValue(String name, String value) {
+		this.name = name;
+		this.value = value;
 	}
-	
-	public String getNames()
-	{
+
+	public String getNames() {
 		return this.name;
 	}
-	
-	public String getValues()
-	{
+
+	public String getValues() {
 		return this.value;
 	}
-	
-	public SimpleStringProperty getNameProperty()
-	{
+
+	public SimpleStringProperty getNameProperty() {
 		return new SimpleStringProperty(this.name);
 	}
-	
-	public SimpleStringProperty getValueProperty()
-	{
+
+	public SimpleStringProperty getValueProperty() {
 		return new SimpleStringProperty(this.value);
 	}
 }
