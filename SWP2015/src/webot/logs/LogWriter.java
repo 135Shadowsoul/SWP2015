@@ -15,7 +15,6 @@ public class LogWriter {
 	 * Constructor
 	 */
 	public LogWriter() {
-		super();
 	}
 
 	/**
