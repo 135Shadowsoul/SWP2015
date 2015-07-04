@@ -30,25 +30,6 @@ public class LogicManager implements InterfaceLogicManager {
 		this.logicExecutor = new LogicExecutor(weBot);
 	}
 
-	/**
-	 * debugg method of the developer removeable after complition
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		File f = new File("C:/Users/Michael/runtime-EclipseApplication/BlaTester/src/angriff.bla");
-
-		InterfaceLogicManager llm = new LogicManager(null);
-		llm.newLogicChosen(f);
-		try {
-			llm.playGameLogic();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
