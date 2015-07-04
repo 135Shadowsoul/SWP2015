@@ -98,4 +98,8 @@ public class WeBot extends Application {
 		gui.addLog(log);
 		writer.writeLog(log);
 	}
+	
+	public void stop(){
+		gui.stop("Programm Stopped!");
+	}
 }

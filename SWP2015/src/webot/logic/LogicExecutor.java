@@ -87,8 +87,9 @@ public class LogicExecutor {
 		// going through EList and executing instructions
 		for (EObject instruction : list) {
 			if (stopped) {
-				log("Stopped by user!");
+				log("Stopped!");
 				gameLogic.stop();
+				weBot.stop();
 				break;
 			}
 
@@ -138,6 +139,7 @@ public class LogicExecutor {
 				stopped = true;
 				gameLogic.stop();
 				log("Stopped by script!");
+				weBot.stop();
 				break;
 			}
 
