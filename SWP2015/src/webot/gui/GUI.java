@@ -750,7 +750,8 @@ public class GUI {
 	}
 
 	public void addLog(Log log) {
-		logList.add(log);
+		logList.add(0, log);
+
 	}
 
 	public Button startButton() {

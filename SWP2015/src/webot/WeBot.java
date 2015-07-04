@@ -9,11 +9,14 @@ import webot.gui.GUI;
 import webot.logic.InterfaceLogicManager;
 import webot.logic.LogicManager;
 import webot.logs.Log;
+import webot.logs.LogWriter;
 import webot.watchValue.WatchValue;
 
 public class WeBot extends Application {
+
 	private InterfaceLogicManager ilm;
 	private GUI gui;
+	private LogWriter writer = new LogWriter();
 
 	/**
 	 * 
@@ -93,5 +96,6 @@ public class WeBot extends Application {
 	 */
 	public void addLog(Log log) {
 		gui.addLog(log);
+		writer.writeLog(log);
 	}
 }
