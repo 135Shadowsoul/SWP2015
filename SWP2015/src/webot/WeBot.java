@@ -59,7 +59,7 @@ public class WeBot extends Application {
 	 */
 	public void startPlaying() {
 		ilm.playGameLogic();
-		
+
 	}
 
 	/**
@@ -100,28 +100,28 @@ public class WeBot extends Application {
 		gui.addLog(log);
 		writer.writeLog(log);
 	}
-	
-	public void stop(){
+
+	public void stop() {
 		gui.stop("Programm Stopped!");
 	}
-	
-	public void setStatus(String message){
+
+	public void setStatus(String message) {
 		gui.getStatusText().setText(message);
 	}
-	
-	public Button getStopButton(){
+
+	public Button getStopButton() {
 		return gui.stopButton();
 	}
-	
-	public String getBrowser(){
+
+	public String getBrowser() {
 		return gui.getBrowser();
 	}
-	
-	public String getBrowserPath(){
+
+	public String getBrowserPath() {
 		return gui.getBrowserPath();
 	}
-	
-	public boolean isStoped(){
+
+	public boolean isStoped() {
 		return gui.stop;
 	}
 }
