@@ -85,6 +85,7 @@ public class LogicExecutor {
 		stopped = false;
 		// going through EList and executing instructions
 		for (EObject instruction : list) {
+			stopped = weBot.isStoped();
 			if (stopped) {
 				log("Stopped!");
 				gameLogic.stop();

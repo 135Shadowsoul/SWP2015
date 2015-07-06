@@ -120,4 +120,8 @@ public class WeBot extends Application {
 	public String getBrowserPath(){
 		return gui.getBrowserPath();
 	}
+	
+	public boolean isStoped(){
+		return gui.stop;
+	}
 }

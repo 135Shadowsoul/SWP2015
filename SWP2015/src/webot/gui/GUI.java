@@ -50,6 +50,8 @@ public class GUI {
 	private File logicFile = null;
 	private boolean browserChosen = false;
 	private boolean logicAdded = false;
+	
+	public boolean stop = false;
 
 	private MenuBar menubar = new MenuBar();
 
