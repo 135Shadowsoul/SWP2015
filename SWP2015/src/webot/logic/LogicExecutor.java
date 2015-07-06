@@ -147,7 +147,7 @@ public class LogicExecutor {
 
 			if (instruction instanceof NoClose) {
 				gameLogic.noClose();
-				log("Browser not closed!");
+				log("Browser will not close!");
 			}
 
 			if (instruction instanceof Wait) {

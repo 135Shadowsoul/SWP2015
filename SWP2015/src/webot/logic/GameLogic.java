@@ -25,7 +25,6 @@ import webot.watchValue.WatchValue;
  *
  */
 public class GameLogic {
-	// TODO logging
 	private Notifier notifier;
 	private InterfaceHTMLParser parser;
 
