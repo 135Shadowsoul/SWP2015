@@ -322,7 +322,7 @@ public class LogicExecutor {
 
 			if (instruction instanceof WhileLoop) {
 				log("While loop recognized!");
-				if (rateCondition(((WhileLoop) instruction).getWhile())) {
+				while (rateCondition(((WhileLoop) instruction).getWhile())) {
 					EList<Block> doLoopList = ((WhileLoop) instruction).getDoLoop();
 					this.executeLogic(blockListToEObjectList(doLoopList), browser, path);
 					log("Loop completed!");
