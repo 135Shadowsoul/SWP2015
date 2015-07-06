@@ -101,9 +101,6 @@ public class WeBot extends Application {
 		writer.writeLog(log);
 	}
 
-	public void stop() {
-		gui.stop("Programm Stopped!");
-	}
 
 	public void setStatus(String message) {
 		gui.getStatusText().setText(message);
