@@ -716,6 +716,7 @@ public class GUI {
 		loadLogic.setDisable(false);
 		loadLogicItem.setDisable(false);
 		discardLogic.setDisable(false);
+		statusText.setText(message);
 	}
 
 	public void setWatchValues(List<WatchValue> watchValues) {
