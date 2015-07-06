@@ -702,9 +702,9 @@ public class GUI {
 
 	}
 
-//	public void setStatus(String message) {
-//		statusText.setText(message);
-//	}
+	// public void setStatus(String message) {
+	// statusText.setText(message);
+	// }
 
 	public void stop(String message) {
 		chooseLogic.setDisable(false);
@@ -853,8 +853,8 @@ public class GUI {
 		outputStream.close();
 
 	}
-	
-	public Text getStatusText(){
+
+	public Text getStatusText() {
 		return this.statusText;
 	}
 
