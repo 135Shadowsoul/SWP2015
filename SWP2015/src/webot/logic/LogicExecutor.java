@@ -171,9 +171,15 @@ public class LogicExecutor {
 					log("Showing stats!");
 				} catch (NoSuchElementException e) {
 					log(e.getMessage());
+					try{
+					gameLogic.notifyMessage(e.getMessage());
+					} catch(Exception f) { log(f.getMessage()); }
 					stopped = true;
 				} catch (TimeoutException e) {
 					log(e.getMessage());
+					try{
+						gameLogic.notifyMessage(e.getMessage());
+						} catch(Exception f) { log(f.getMessage()); }
 					stopped = true;
 				}
 			}
@@ -193,9 +199,15 @@ public class LogicExecutor {
 					log("Wrote the following value: " + value + "  to the following xpath: " + xpath);
 				} catch (NoSuchElementException e) {
 					log(e.getMessage());
+					try{
+						gameLogic.notifyMessage(e.getMessage());
+						} catch(Exception f) { log(f.getMessage()); }
 					stopped = true;
 				} catch (TimeoutException e) {
 					log(e.getMessage());
+					try{
+						gameLogic.notifyMessage(e.getMessage());
+						} catch(Exception f) { log(f.getMessage()); }
 					stopped = true;
 				}
 			}
@@ -209,9 +221,15 @@ public class LogicExecutor {
 					log("Read the following value " + result + " from the following xpath:" + xpath);
 				} catch (NoSuchElementException e) {
 					log(e.getMessage());
+					try{
+						gameLogic.notifyMessage(e.getMessage());
+						} catch(Exception f) { log(f.getMessage()); }
 					stopped = true;
 				} catch (TimeoutException e) {
 					log(e.getMessage());
+					try{
+						gameLogic.notifyMessage(e.getMessage());
+						} catch(Exception f) { log(f.getMessage()); }
 					stopped = true;
 				}
 
@@ -226,9 +244,15 @@ public class LogicExecutor {
 
 				} catch (NoSuchElementException e) {
 					log(e.getMessage());
+					try{
+						gameLogic.notifyMessage(e.getMessage());
+						} catch(Exception f) { log(f.getMessage()); }
 					stopped = true;
 				} catch (TimeoutException e) {
 					log(e.getMessage());
+					try{
+						gameLogic.notifyMessage(e.getMessage());
+						} catch(Exception f) { log(f.getMessage()); }
 					stopped = true;
 				}
 			}
@@ -245,9 +269,15 @@ public class LogicExecutor {
 
 				} catch (NoSuchElementException e) {
 					log(e.getMessage());
+					try{
+						gameLogic.notifyMessage(e.getMessage());
+						} catch(Exception f) { log(f.getMessage()); }
 					stopped = true;
 				} catch (TimeoutException e) {
 					log(e.getMessage());
+					try{
+						gameLogic.notifyMessage(e.getMessage());
+						} catch(Exception f) { log(f.getMessage()); }
 					stopped = true;
 				}
 
@@ -349,9 +379,15 @@ public class LogicExecutor {
 				value = gameLogic.read(xpath);
 			} catch (NoSuchElementException e) {
 				log(e.getMessage());
+				try{
+					gameLogic.notifyMessage("ERROR: " + e.getMessage());
+					} catch(Exception f) { log(f.getMessage()); }
 				stopped = true;
 			} catch (TimeoutException e) {
 				log(e.getMessage());
+				try{
+					gameLogic.notifyMessage("ERROR: " + e.getMessage());
+					} catch(Exception f) { log(f.getMessage()); }
 				stopped = true;
 			}
 
@@ -386,9 +422,15 @@ public class LogicExecutor {
 				result = gameLogic.read(xpath);
 			} catch (NoSuchElementException e) {
 				log(e.getMessage());
+				try{
+					gameLogic.notifyMessage("ERROR: " + e.getMessage());
+					} catch(Exception f) { log(f.getMessage()); }
 				stopped = true;
 			} catch (TimeoutException e) {
 				log(e.getMessage());
+				try{
+					gameLogic.notifyMessage("ERROR: " + e.getMessage());
+					} catch(Exception f) { log(f.getMessage()); }
 				stopped = true;
 			}
 		}
