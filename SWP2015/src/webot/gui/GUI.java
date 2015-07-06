@@ -660,8 +660,12 @@ public class GUI {
 		scoreTable.setMinWidth(570);
 		scoreTable.setMaxHeight(85);
 		scoreTable.setItems(scoreList);
+		scoreValueColumn.setMinWidth(450);
+		scoreValueColumn.setText("Value");
+		scoreNameColumn.setMinWidth(119);
+		scoreNameColumn.setText("Name");
 		scoreTable.getColumns().add(scoreNameColumn);
-		scoreTable.getColumns().add(scoreValueColumn);
+		scoreTable.getColumns().add(scoreValueColumn);		
 		scoreTable.setVisible(false);
 		scoreLabel.setVisible(false);
 
@@ -726,26 +730,22 @@ public class GUI {
 	 * @param watchValues
 	 */
 	public void setWatchValues(List<WatchValue> watchValues) {
-		scoreTable.getColumns().clear();
-		scoreList.clear();
-		scoreList.addAll(watchValues);
+		scoreList.setAll(watchValues);
 		scoreNameColumn.setCellValueFactory(new Callback<CellDataFeatures<WatchValue, String>, ObservableValue<String>>() {
 			public ObservableValue<String> call(CellDataFeatures<WatchValue, String> p) {
 				return p.getValue().getNameProperty();
 			}
 		});
-		scoreNameColumn.setMinWidth(119);
-		scoreNameColumn.setText("Name");
+
 
 		scoreValueColumn.setCellValueFactory(new Callback<CellDataFeatures<WatchValue, String>, ObservableValue<String>>() {
 			public ObservableValue<String> call(CellDataFeatures<WatchValue, String> p) {
 				return p.getValue().getValueProperty();
 			}
 		});
-		scoreValueColumn.setMinWidth(450);
-		scoreValueColumn.setText("Value");
-		scoreTable.getColumns().add(scoreNameColumn);
-		scoreTable.getColumns().add(scoreValueColumn);
+
+//		scoreTable.getColumns().add(scoreNameColumn);
+//		scoreTable.getColumns().add(scoreValueColumn);
 
 		if (watchValues.size() == 1)
 			scoreTable.setMaxHeight(65);
