@@ -7,7 +7,7 @@ public interface InterfaceHTMLParser {
 	/**
 	 * Open the browser
 	 */
-	public void openBrowser();
+	public void openBrowser(String Browser, String path);
 
 	/**
 	 * Write the text to the specific delivered xpath

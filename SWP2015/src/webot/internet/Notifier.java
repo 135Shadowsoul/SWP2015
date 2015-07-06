@@ -6,7 +6,6 @@ import javax.mail.internet.AddressException;
 public interface Notifier {
 
 	/**
-	 * Sended @message
 	 * 
 	 * Constructor for the respective Notifiers. Gets the following parameters:
 	 * 

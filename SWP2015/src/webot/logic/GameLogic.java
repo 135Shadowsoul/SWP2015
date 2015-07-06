@@ -44,7 +44,7 @@ public class GameLogic {
 	 *            @
 	 */
 	@SuppressWarnings("static-access")
-	public void start(Date date) {
+	public void start(Date date, String browser, String path) {
 		while (date.after(new Date(System.currentTimeMillis()))) {
 			try {
 				Thread.currentThread().sleep(date.getTime() - System.currentTimeMillis());
@@ -53,7 +53,7 @@ public class GameLogic {
 			}
 		}
 
-		parser.openBrowser();
+		parser.openBrowser(browser, path);
 	}
 
 	/**

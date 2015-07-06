@@ -43,25 +43,25 @@ public class SeleniumParser implements InterfaceHTMLParser {
 	/**
 	 * Open the browser
 	 */
-	public void openBrowser() {
-		// TODO handle browsers
+	public void openBrowser(String browser, String path) {
 
-		try {
-			System.setProperty("webdriver.chrome.driver", "F:/Program Files/chromedriver/chromedriver.exe");
-			this.driver = new ChromeDriver();
-		} catch (Exception e) {
+		if (browser.equals("Internet Explorer")) {
 			try {
-				System.setProperty("webdriver.ie.driver", "F:/Program Files/IEDriver/IEDriverServer.exe");
+				System.setProperty("webdriver.ie.driver", path);
 				this.driver = new InternetExplorerDriver();
-			} catch (Exception f) {
-				try {
-					this.driver = new FirefoxDriver();
-				} catch (Exception g) {
-
-				}
-
+			} catch (Exception e) {
 			}
-
+		} else if (browser.equals("Chrome")) {
+			try {
+				System.setProperty("webdriver.chrome.driver", path);
+				this.driver = new ChromeDriver();
+			} catch (Exception e) {
+			}
+		} else {
+			try {
+				this.driver = new FirefoxDriver();
+			} catch (Exception g) {
+			}
 		}
 	}
 

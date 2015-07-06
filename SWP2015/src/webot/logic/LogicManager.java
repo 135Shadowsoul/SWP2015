@@ -19,6 +19,7 @@ public class LogicManager implements InterfaceLogicManager {
 
 	private EList<EObject> instructionList;
 	private LogicExecutor logicExecutor;
+	private WeBot weBot;
 
 	/**
 	 * Constructor with assigned WeBot
@@ -27,6 +28,7 @@ public class LogicManager implements InterfaceLogicManager {
 	 */
 	public LogicManager(WeBot weBot) {
 		this.reset();
+		this.weBot = weBot;
 		this.logicExecutor = new LogicExecutor(weBot);
 	}
 
@@ -65,7 +67,9 @@ public class LogicManager implements InterfaceLogicManager {
 		Thread execut = new Thread(new Runnable() {
 
 			public void run() {
-				logicExecutor.executeLogic(instructionList);
+				String browser = weBot.getBrowser();
+				String path = weBot.getBrowserPath();
+				logicExecutor.executeLogic(instructionList, browser, path);
 			}
 		});
 

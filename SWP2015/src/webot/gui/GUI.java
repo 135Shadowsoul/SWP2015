@@ -702,10 +702,11 @@ public class GUI {
 
 	}
 
-	// public void setStatus(String message) {
-	// statusText.setText(message);
-	// }
-
+	/**
+	 * for Stopping the activity
+	 * 
+	 * @param message
+	 */
 	public void stop(String message) {
 		chooseLogic.setDisable(false);
 		discardBrowser.setDisable(false);
@@ -719,6 +720,11 @@ public class GUI {
 		statusText.setText(message);
 	}
 
+	/**
+	 * Creates a Table with values user wants to watch
+	 * 
+	 * @param watchValues
+	 */
 	public void setWatchValues(List<WatchValue> watchValues) {
 		scoreTable.getColumns().clear();
 		scoreList.clear();
@@ -750,14 +756,16 @@ public class GUI {
 		scoreLabel.setVisible(true);
 	}
 
+	/**
+	 * Adds a log to Log-Table
+	 * 
+	 * @param log
+	 */
 	public void addLog(Log log) {
 		logList.add(0, log);
 
 	}
 
-	public Button startButton() {
-		return this.startButton;
-	}
 
 	public Button stopButton() {
 		return this.stopButton;
@@ -775,6 +783,9 @@ public class GUI {
 		return this.logicFile;
 	}
 
+	/**
+	 * Starts the Bot
+	 */
 	public void startPressed() {
 		if (!logicAdded) {
 			statusText.setText("Missing Logic!");
@@ -799,10 +810,11 @@ public class GUI {
 		stop("Stopped!");
 	}
 
-	public boolean browserAdded() {
-		return this.browserChosen;
-	}
-
+	/**
+	 * Loads Defaul-File at start with Usersettings
+	 * 
+	 * @throws Exception
+	 */
 	private void loadDefault() throws Exception {
 
 		// loads properties from file
@@ -834,6 +846,11 @@ public class GUI {
 
 	}
 
+	/**
+	 * Saves Usersettings as default for next Start
+	 * 
+	 * @throws IOException
+	 */
 	private void saveDefault() throws IOException {
 
 		if (browserChosen) {

@@ -59,6 +59,7 @@ public class WeBot extends Application {
 	 */
 	public void startPlaying() {
 		ilm.playGameLogic();
+		
 	}
 
 	/**
@@ -110,5 +111,13 @@ public class WeBot extends Application {
 	
 	public Button getStopButton(){
 		return gui.stopButton();
+	}
+	
+	public String getBrowser(){
+		return gui.getBrowser();
+	}
+	
+	public String getBrowserPath(){
+		return gui.getBrowserPath();
 	}
 }
