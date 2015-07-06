@@ -32,9 +32,7 @@ public class LogicManager implements InterfaceLogicManager {
 		this.logicExecutor = new LogicExecutor(weBot);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/**
 	 * @see webot.InterfaceLogicManager#newLogicChosen(java.io.File)
 	 */
 	public boolean newLogicChosen(File origin) {
