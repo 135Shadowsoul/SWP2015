@@ -85,7 +85,7 @@ public class LogicExecutor {
 		stopped = false;
 		// going through EList and executing instructions
 		for (EObject instruction : list) {
-			stopped = weBot.isStoped();
+
 			if (stopped) {
 				log("Stopped!");
 				gameLogic.stop();
@@ -93,6 +93,7 @@ public class LogicExecutor {
 				weBot.setStatus("Stopped!");
 				break;
 			}
+			stopped = weBot.isStoped();
 
 			if (instruction instanceof Start) {
 				String start = ((StartImpl) instruction).getName();
@@ -123,10 +124,8 @@ public class LogicExecutor {
 					log(gameLogic.notifyMessage(massage));
 				} catch (AddressException e) {
 					log("ERROR: Invalid email address!");
-					stopped = true;
 				} catch (MessagingException e) {
 					log("ERROR: Email not sent!");
-					stopped = true;
 				}
 			}
 
@@ -170,19 +169,23 @@ public class LogicExecutor {
 
 					log("Showing stats!");
 				} catch (NoSuchElementException e) {
+					stopped = true;
 					log(e.getMessage());
 					try {
 						gameLogic.notifyMessage(e.getMessage());
 					} catch (Exception f) {
+						stopped = true;
 						log(f.getMessage());
 					}
 					stopped = true;
 				} catch (TimeoutException e) {
+					stopped = true;
 					log(e.getMessage());
 					try {
 						gameLogic.notifyMessage(e.getMessage());
 					} catch (Exception f) {
 						log(f.getMessage());
+						stopped = true;
 					}
 					stopped = true;
 				}
@@ -202,18 +205,22 @@ public class LogicExecutor {
 					gameLogic.write(xpath, value);
 					log("Wrote the following value: " + value + "  to the following xpath: " + xpath);
 				} catch (NoSuchElementException e) {
+					stopped = true;
 					log(e.getMessage());
 					try {
 						gameLogic.notifyMessage(e.getMessage());
 					} catch (Exception f) {
+						stopped = true;
 						log(f.getMessage());
 					}
 					stopped = true;
 				} catch (TimeoutException e) {
+					stopped = true;
 					log(e.getMessage());
 					try {
 						gameLogic.notifyMessage(e.getMessage());
 					} catch (Exception f) {
+						stopped = true;
 						log(f.getMessage());
 					}
 					stopped = true;
@@ -228,18 +235,22 @@ public class LogicExecutor {
 					result = gameLogic.read(xpath);
 					log("Read the following value " + result + " from the following xpath:" + xpath);
 				} catch (NoSuchElementException e) {
+					stopped = true;
 					log(e.getMessage());
 					try {
 						gameLogic.notifyMessage(e.getMessage());
 					} catch (Exception f) {
+						stopped = true;
 						log(f.getMessage());
 					}
 					stopped = true;
 				} catch (TimeoutException e) {
 					log(e.getMessage());
 					try {
+						stopped = true;
 						gameLogic.notifyMessage(e.getMessage());
 					} catch (Exception f) {
+						stopped = true;
 						log(f.getMessage());
 					}
 					stopped = true;
@@ -255,18 +266,22 @@ public class LogicExecutor {
 					log("Clicked at the following xpath: " + xpath);
 
 				} catch (NoSuchElementException e) {
+					stopped = true;
 					log(e.getMessage());
 					try {
 						gameLogic.notifyMessage(e.getMessage());
 					} catch (Exception f) {
+						stopped = true;
 						log(f.getMessage());
 					}
 					stopped = true;
 				} catch (TimeoutException e) {
+					stopped = true;
 					log(e.getMessage());
 					try {
 						gameLogic.notifyMessage(e.getMessage());
 					} catch (Exception f) {
+						stopped = true;
 						log(f.getMessage());
 					}
 					stopped = true;
@@ -284,18 +299,22 @@ public class LogicExecutor {
 					log("Set the following variable name " + varName + " with the specified read xpath-value:" + value);
 
 				} catch (NoSuchElementException e) {
+					stopped = true;
 					log(e.getMessage());
 					try {
 						gameLogic.notifyMessage(e.getMessage());
 					} catch (Exception f) {
+						stopped = true;
 						log(f.getMessage());
 					}
 					stopped = true;
 				} catch (TimeoutException e) {
+					stopped = true;
 					log(e.getMessage());
 					try {
 						gameLogic.notifyMessage(e.getMessage());
 					} catch (Exception f) {
+						stopped = true;
 						log(f.getMessage());
 					}
 					stopped = true;
@@ -398,18 +417,22 @@ public class LogicExecutor {
 			try {
 				value = gameLogic.read(xpath);
 			} catch (NoSuchElementException e) {
+				stopped = true;
 				log(e.getMessage());
 				try {
 					gameLogic.notifyMessage("ERROR: " + e.getMessage());
 				} catch (Exception f) {
+					stopped = true;
 					log(f.getMessage());
 				}
 				stopped = true;
 			} catch (TimeoutException e) {
+				stopped = true;
 				log(e.getMessage());
 				try {
 					gameLogic.notifyMessage("ERROR: " + e.getMessage());
 				} catch (Exception f) {
+					stopped = true;
 					log(f.getMessage());
 				}
 				stopped = true;
@@ -445,18 +468,23 @@ public class LogicExecutor {
 			try {
 				result = gameLogic.read(xpath);
 			} catch (NoSuchElementException e) {
+				stopped = true;
 				log(e.getMessage());
 				try {
 					gameLogic.notifyMessage("ERROR: " + e.getMessage());
 				} catch (Exception f) {
+					stopped = true;
 					log(f.getMessage());
 				}
 				stopped = true;
 			} catch (TimeoutException e) {
+				stopped = true;
 				log(e.getMessage());
 				try {
+					stopped = true;
 					gameLogic.notifyMessage("ERROR: " + e.getMessage());
 				} catch (Exception f) {
+					stopped = true;
 					log(f.getMessage());
 				}
 				stopped = true;

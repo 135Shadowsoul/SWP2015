@@ -621,6 +621,7 @@ public class GUI {
 			public void handle(ActionEvent arg0) {
 				bot.stopPlaying();
 				stopPressed();
+				stop = true;
 			}
 		});
 
