@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.List;
 
 import javafx.application.Application;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import webot.gui.GUI;
 import webot.logic.InterfaceLogicManager;
@@ -101,5 +102,13 @@ public class WeBot extends Application {
 	
 	public void stop(){
 		gui.stop("Programm Stopped!");
+	}
+	
+	public void setStatus(String message){
+		gui.getStatusText().setText(message);
+	}
+	
+	public Button getStopButton(){
+		return gui.stopButton();
 	}
 }

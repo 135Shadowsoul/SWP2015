@@ -89,7 +89,8 @@ public class LogicExecutor {
 			if (stopped) {
 				log("Stopped!");
 				gameLogic.stop();
-				weBot.stop();
+				weBot.getStopButton().fire();
+				weBot.setStatus("Stopped!");
 				break;
 			}
 
@@ -139,13 +140,14 @@ public class LogicExecutor {
 				stopped = true;
 				gameLogic.stop();
 				log("Stopped by script!");
-				weBot.stop();
+				weBot.getStopButton().fire();
+				weBot.setStatus("Stopped!");
 				break;
 			}
 
 			if (instruction instanceof NoClose) {
 				gameLogic.noClose();
-				log("Browser mot closed!");
+				log("Browser not closed!");
 			}
 
 			if (instruction instanceof Wait) {
@@ -444,5 +446,4 @@ public class LogicExecutor {
 		Log log = new Log(message);
 		weBot.addLog(log);
 	}
-
 }

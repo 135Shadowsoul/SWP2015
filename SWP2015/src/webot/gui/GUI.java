@@ -35,6 +35,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Modality;
@@ -80,8 +81,8 @@ public class GUI {
 	private TableColumn<WatchValue, String> scoreValueColumn = new TableColumn<WatchValue, String>();
 	private ObservableList<WatchValue> scoreList = FXCollections.observableArrayList();
 
-	private final Label statusLabel = new Label("Status:");
-	private Label statusText = new Label("Waiting for Operator...");
+	private final Text statusLabel = new Text("Status:");
+	private Text statusText = new Text("Waiting for Operator...");
 
 	private Separator browser_logic = new Separator();
 	private Separator top_buttons = new Separator();
@@ -665,9 +666,9 @@ public class GUI {
 		scoreLabel.setVisible(false);
 
 		statusLabel.setLayoutX(10);
-		statusLabel.setLayoutY(550);
+		statusLabel.setLayoutY(563);
 		statusText.setLayoutX(50);
-		statusText.setLayoutY(550);
+		statusText.setLayoutY(563);
 
 		top_buttons.setLayoutY(140);
 		top_buttons.setMinWidth(600);
@@ -701,9 +702,9 @@ public class GUI {
 
 	}
 
-	public void setStatus(String message) {
-		statusText.setText(message);
-	}
+//	public void setStatus(String message) {
+//		statusText.setText(message);
+//	}
 
 	public void stop(String message) {
 		chooseLogic.setDisable(false);
@@ -715,7 +716,6 @@ public class GUI {
 		loadLogic.setDisable(false);
 		loadLogicItem.setDisable(false);
 		discardLogic.setDisable(false);
-		statusText.setText(message);
 	}
 
 	public void setWatchValues(List<WatchValue> watchValues) {
@@ -795,7 +795,7 @@ public class GUI {
 	}
 
 	public void stopPressed() {
-		stop("Stopped by Operator!");
+		stop("Stopped!");
 	}
 
 	public boolean browserAdded() {
@@ -824,6 +824,7 @@ public class GUI {
 			chosenLogic.setText("Chosen Logic-file: " + logicFile.getName());
 			discardLogic.setDisable(false);
 			discardLogicItem.setDisable(false);
+			bot.logicChosen(logicFile);
 		} else {
 			statusText.setText("Error occured while loading logic");
 		}
@@ -843,12 +844,17 @@ public class GUI {
 		}
 		if (logicAdded) {
 			configProps.setProperty("LogicFile", logicFile.getPath());
-		}
+		} else
+			configProps.setProperty("LogicFile", "");
 
 		OutputStream outputStream = new FileOutputStream(configFile);
 		configProps.store(outputStream, "We-B-ot Settings");
 		outputStream.close();
 
+	}
+	
+	public Text getStatusText(){
+		return this.statusText;
 	}
 
 }
