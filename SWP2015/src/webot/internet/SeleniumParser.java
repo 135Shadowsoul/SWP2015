@@ -12,6 +12,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
+
 import com.google.common.base.Function;
 
 public class SeleniumParser implements InterfaceHTMLParser {
@@ -50,20 +51,22 @@ public class SeleniumParser implements InterfaceHTMLParser {
 				System.setProperty("webdriver.ie.driver", path);
 				this.driver = new InternetExplorerDriver();
 			} catch (Exception e) {
-				try {
-					this.driver = new FirefoxDriver();
-				} catch (Exception g) {
-				}
+				throw new IllegalArgumentException();
+				// try {
+				// this.driver = new FirefoxDriver();
+				// } catch (Exception g) {
+				// }
 			}
 		} else if (browser.equals("Chrome")) {
 			try {
 				System.setProperty("webdriver.chrome.driver", path);
 				this.driver = new ChromeDriver();
 			} catch (Exception e) {
-				try {
-					this.driver = new FirefoxDriver();
-				} catch (Exception g) {
-				}
+				throw new IllegalArgumentException();
+				// try {
+				// this.driver = new FirefoxDriver();
+				// } catch (Exception g) {
+				// }
 			}
 		} else {
 			try {
@@ -161,7 +164,10 @@ public class SeleniumParser implements InterfaceHTMLParser {
 	 */
 	public void closeBrowser() {
 		if (closeable) {
-			driver.close();
+			try {
+				driver.close();
+			} catch (Exception e) {
+			}
 		}
 	}
 

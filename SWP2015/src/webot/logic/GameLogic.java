@@ -52,8 +52,11 @@ public class GameLogic {
 				e.printStackTrace();
 			}
 		}
-
-		parser.openBrowser(browser, path);
+		try {
+			parser.openBrowser(browser, path);
+		} catch (Exception e) {
+			throw new IllegalArgumentException();
+		}
 	}
 
 	/**

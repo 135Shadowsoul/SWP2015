@@ -113,8 +113,15 @@ public class LogicExecutor {
 				}
 
 				log("Starting at " + date);
-
-				gameLogic.start(date, browser, path);
+				try {
+					gameLogic.start(date, browser, path);
+				} catch (Exception e) {
+					log("Error while initializing Browser");
+					gameLogic.stop();
+					weBot.getStopButton().fire();
+					weBot.setStatus("Stopped!");
+					break;
+				}
 			}
 
 			if (instruction instanceof Notification) {
