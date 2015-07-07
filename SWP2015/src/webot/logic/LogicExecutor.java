@@ -193,8 +193,8 @@ public class LogicExecutor {
 
 			if (instruction instanceof Connect) {
 				String url = ((ConnectImpl) instruction).getName();
-				gameLogic.connect(url);
 				log("Try to connect to the following URL: " + url);
+				gameLogic.connect(url);
 			}
 
 			if (instruction instanceof Write) {
