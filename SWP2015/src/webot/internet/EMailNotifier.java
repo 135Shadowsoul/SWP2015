@@ -35,6 +35,9 @@ public class EMailNotifier implements Notifier {
 			throw new IllegalArgumentException("Ungueltige Mailaddresse!!");
 		}
 
+		/*
+		 * Working with Mailgun, see http://www.mailgun.com/ for API
+		 */
 		String returnString = "";
 
 		Properties props = System.getProperties();
