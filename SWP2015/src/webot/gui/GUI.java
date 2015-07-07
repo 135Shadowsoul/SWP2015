@@ -607,9 +607,11 @@ public class GUI {
 		startButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent arg0) {
+				if (browserChosen){
 				stop = false;
 				startPressed();
 				bot.startPlaying();
+				} else statusText.setText("No Browser Chosen");
 			}
 		});
 
