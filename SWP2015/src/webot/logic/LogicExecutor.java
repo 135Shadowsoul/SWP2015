@@ -91,6 +91,7 @@ public class LogicExecutor {
 				gameLogic.stop();
 				weBot.getStopButton().fire();
 				weBot.setStatus("Stopped!");
+				stopped = true;
 				break;
 			}
 			stopped = weBot.isStoped();
