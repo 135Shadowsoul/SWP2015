@@ -63,7 +63,7 @@ import webot.watchValue.WatchValue;
  */
 public class LogicExecutor {
 	private GameLogic gameLogic;
-	private boolean stopped;
+	private boolean stopped = false;
 	private WeBot weBot;
 
 	/**
@@ -82,7 +82,7 @@ public class LogicExecutor {
 	 *            Logic ??
 	 */
 	public void executeLogic(EList<EObject> list, String browser, String path) {
-		stopped = false;
+
 		// going through EList and executing instructions
 		for (EObject instruction : list) {
 
