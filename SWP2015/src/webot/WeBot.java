@@ -120,4 +120,8 @@ public class WeBot extends Application {
 	public boolean isStoped() {
 		return gui.stop;
 	}
+	
+	public void setStop(){
+		gui.stop = true;
+	}
 }
