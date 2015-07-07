@@ -52,10 +52,6 @@ public class SeleniumParser implements InterfaceHTMLParser {
 				this.driver = new InternetExplorerDriver();
 			} catch (Exception e) {
 				throw new IllegalArgumentException();
-				// try {
-				// this.driver = new FirefoxDriver();
-				// } catch (Exception g) {
-				// }
 			}
 		} else if (browser.equals("Chrome")) {
 			try {
@@ -63,10 +59,6 @@ public class SeleniumParser implements InterfaceHTMLParser {
 				this.driver = new ChromeDriver();
 			} catch (Exception e) {
 				throw new IllegalArgumentException();
-				// try {
-				// this.driver = new FirefoxDriver();
-				// } catch (Exception g) {
-				// }
 			}
 		} else {
 			try {
