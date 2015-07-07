@@ -50,12 +50,20 @@ public class SeleniumParser implements InterfaceHTMLParser {
 				System.setProperty("webdriver.ie.driver", path);
 				this.driver = new InternetExplorerDriver();
 			} catch (Exception e) {
+				try {
+					this.driver = new FirefoxDriver();
+				} catch (Exception g) {
+				}
 			}
 		} else if (browser.equals("Chrome")) {
 			try {
 				System.setProperty("webdriver.chrome.driver", path);
 				this.driver = new ChromeDriver();
 			} catch (Exception e) {
+				try {
+					this.driver = new FirefoxDriver();
+				} catch (Exception g) {
+				}
 			}
 		} else {
 			try {
