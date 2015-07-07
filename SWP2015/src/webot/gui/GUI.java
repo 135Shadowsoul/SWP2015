@@ -40,6 +40,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 
 public class GUI {
@@ -131,6 +132,12 @@ public class GUI {
 	public void start(final Stage arg0) {
 
 		final Stage stage = new Stage();
+		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+			public void handle(WindowEvent arg0) {
+				stop = true;
+			}
+		});
 		Pane pane = new Pane();
 
 		statusBar.setWidth(600);

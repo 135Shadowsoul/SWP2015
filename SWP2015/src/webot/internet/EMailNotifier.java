@@ -47,14 +47,15 @@ public class EMailNotifier implements Notifier {
 		Session session = Session.getInstance(props, null);
 		Message msg = new MimeMessage(session);
 
-		msg.setFrom(new InternetAddress("swp2015mail@gmail.com"));
+		msg.setFrom(new InternetAddress("ab@c.de")); // Your E-Mail Address
 		msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(address, false));
 		msg.setSubject(subject);
 		msg.setText(message);
 		msg.setSentDate(new Date());
 
 		SMTPTransport t = (SMTPTransport) session.getTransport("smtps");
-		t.connect("smtp.mailgun.com", "postmaster@sandbox5d14333a2cff4996a9647455f8d86212.mailgun.org", "03b80f5bb1843397fedb3f8a3f8c527f");
+		t.connect("smtp.mailgun.com", "postmaster@sandboxXX...XX.mailgun.org", "YY...YY");
+		// Your Mailgun SandboxID insted of XX...XX and your Sandbox´s Password insted of YY...YY
 		t.sendMessage(msg, msg.getAllRecipients());
 		t.close();
 
