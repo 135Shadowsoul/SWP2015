@@ -50,7 +50,7 @@ public class GUI {
 	private File logicFile = null;
 	private boolean browserChosen = false;
 	private boolean logicAdded = false;
-	
+
 	public boolean stop = false;
 
 	private MenuBar menubar = new MenuBar();
@@ -270,6 +270,7 @@ public class GUI {
 		loadLogicItem.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(final ActionEvent e) {
+				statusText.setText("Processing Logic");
 				FileChooser fileChooser = new FileChooser();
 				ExtensionFilter filter = new ExtensionFilter("BotLanguage (*.bla)", "*.bla");
 				fileChooser.getExtensionFilters().add(filter);
@@ -539,10 +540,12 @@ public class GUI {
 		loadLogic.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(final ActionEvent e) {
+				statusText.setText("Processing Logic");
 				FileChooser fileChooser = new FileChooser();
 				ExtensionFilter filter = new ExtensionFilter("BotLanguage (*.bla)", "*.bla");
 				fileChooser.getExtensionFilters().add(filter);
 				File tempFile = fileChooser.showOpenDialog(arg0);
+
 				if (tempFile != null && tempFile.getName().endsWith(".bla")) {
 					logicFile = tempFile;
 
@@ -607,11 +610,12 @@ public class GUI {
 		startButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent arg0) {
-				if (browserChosen){
-				stop = false;
-				startPressed();
-				bot.startPlaying();
-				} else statusText.setText("No Browser Chosen");
+				if (browserChosen) {
+					stop = false;
+					startPressed();
+					bot.startPlaying();
+				} else
+					statusText.setText("No Browser Chosen");
 			}
 		});
 
@@ -671,7 +675,7 @@ public class GUI {
 		scoreNameColumn.setMinWidth(119);
 		scoreNameColumn.setText("Name");
 		scoreTable.getColumns().add(scoreNameColumn);
-		scoreTable.getColumns().add(scoreValueColumn);		
+		scoreTable.getColumns().add(scoreValueColumn);
 		scoreTable.setVisible(false);
 		scoreLabel.setVisible(false);
 
@@ -743,15 +747,14 @@ public class GUI {
 			}
 		});
 
-
 		scoreValueColumn.setCellValueFactory(new Callback<CellDataFeatures<WatchValue, String>, ObservableValue<String>>() {
 			public ObservableValue<String> call(CellDataFeatures<WatchValue, String> p) {
 				return p.getValue().getValueProperty();
 			}
 		});
 
-//		scoreTable.getColumns().add(scoreNameColumn);
-//		scoreTable.getColumns().add(scoreValueColumn);
+		// scoreTable.getColumns().add(scoreNameColumn);
+		// scoreTable.getColumns().add(scoreValueColumn);
 
 		if (watchValues.size() == 1)
 			scoreTable.setMaxHeight(65);
@@ -771,7 +774,6 @@ public class GUI {
 		logList.add(0, log);
 
 	}
-
 
 	public Button stopButton() {
 		return this.stopButton;
