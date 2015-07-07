@@ -607,6 +607,7 @@ public class GUI {
 		startButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent arg0) {
+				stop = false;
 				startPressed();
 				bot.startPlaying();
 			}
